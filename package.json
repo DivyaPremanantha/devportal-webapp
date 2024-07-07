@@ -1,0 +1,33 @@
+{
+  "name": "devportal-webapp",
+  "version": "1.0.0",
+  "description": "devportal-webapp",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DivyaPremanantha/devportal-webapp.git"
+  },
+  "keywords": [
+    "Devportal",
+    "Node.js"
+  ],
+  "author": "Divya Premanantha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DivyaPremanantha/devportal-webapp/issues"
+  },
+  "homepage": "https://github.com/DivyaPremanantha/devportal-webapp#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.3",
+    "handlebars": "^4.7.8",
+    "hbs": "^4.2.0",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
