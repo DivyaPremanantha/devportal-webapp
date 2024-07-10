@@ -5,7 +5,7 @@
     <section class="container">
       <div class="version">
         <p>Version: <span>{{apiMetadata.apiInfo.openApiDefinition.info.version}}</span></p>
-         <p> TryOut: <a href="http://localhost:3001/ABCOrganization/api/FamousAttractionsAPI/tryout#/"> {{apiMetadata.apiInfo.openApiDefinition.info.title}} </a> </p>
+        <p> TryOut: <a href="{{apiMetadata.apiInfo.apiName}}/tryout"> {{apiMetadata.apiInfo.openApiDefinition.info.title}} </a> </p>
       </div>
       <div class="url">
         <p>URL: <a href={{apiMetadata.serverUrl.productionUrl}}> {{apiMetadata.serverUrl.productionUrl}}
