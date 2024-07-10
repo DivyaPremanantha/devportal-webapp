@@ -1,0 +1,510 @@
+{
+    "apiInfo": {
+        "apiName": "HotelAvailabilityAPI",
+        "openApiDefinition": {
+          "openapi": "3.0.1",
+          "info": {
+            "title": "Hotel Availability API",
+            "description": "API for checking hotel availability and managing hotel reservations in a specified city",
+            "version": "1.0.0"
+          },
+          "servers": [
+            {
+              "url": "https://stoplight.io/mocks/hotelavailability/hotelavailability/542417",
+              "description": "Main (production) server"
+            },
+            {
+              "url": "https://stoplight.io/mocks/hotelavailability/hotelavailability/542417",
+              "description": "Staging server"
+            }
+          ],
+          "paths": {
+            "/hotels": {
+              "get": {
+                "summary": "Get a list of available hotels",
+                "description": "Retrieve a list of available hotels in the specified city based on search criteria",
+                "parameters": [
+                  {
+                    "in": "query",
+                    "name": "city",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "description": "The name of the city to search hotels in",
+                    "example": "New York"
+                  },
+                  {
+                    "in": "query",
+                    "name": "check_in_date",
+                    "schema": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "required": true,
+                    "description": "The check-in date for the hotel stay",
+                    "example": "2024-07-01"
+                  },
+                  {
+                    "in": "query",
+                    "name": "check_out_date",
+                    "schema": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "required": true,
+                    "description": "The check-out date for the hotel stay",
+                    "example": "2024-07-10"
+                  },
+                  {
+                    "in": "query",
+                    "name": "guests",
+                    "schema": {
+                      "type": "integer"
+                    },
+                    "required": true,
+                    "description": "The number of guests for the hotel stay",
+                    "example": 2
+                  },
+                  {
+                    "in": "query",
+                    "name": "min_price",
+                    "schema": {
+                      "type": "number",
+                      "format": "float"
+                    },
+                    "description": "Minimum price per night",
+                    "example": 100
+                  },
+                  {
+                    "in": "query",
+                    "name": "max_price",
+                    "schema": {
+                      "type": "number",
+                      "format": "float"
+                    },
+                    "description": "Maximum price per night",
+                    "example": 500
+                  },
+                  {
+                    "in": "query",
+                    "name": "rating",
+                    "schema": {
+                      "type": "number",
+                      "format": "float"
+                    },
+                    "description": "Minimum rating of the hotel",
+                    "example": 4
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "A list of available hotels",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Hotel"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "Invalid parameters"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            },
+            "/hotels/{id}": {
+              "get": {
+                "summary": "Get details of a specific hotel",
+                "description": "Retrieve detailed information about a specific hotel",
+                "parameters": [
+                  {
+                    "in": "path",
+                    "name": "id",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "description": "The ID of the hotel",
+                    "example": "hotel123"
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Hotel details",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/Hotel"
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Hotel not found"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            },
+            "/reservations": {
+              "post": {
+                "summary": "Create a new hotel reservation",
+                "description": "Make a reservation at a hotel",
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/NewReservation",
+                        "examples": {
+                          "example-1": {
+                            "summary": "Standard reservation",
+                            "value": {
+                              "hotel_id": "hotel123",
+                              "guest_name": "John Doe",
+                              "check_in_date": "2024-07-01",
+                              "check_out_date": "2024-07-10",
+                              "number_of_guests": 2,
+                              "special_requests": "High floor room"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Reservation created",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/Reservation"
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "Invalid request"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            },
+            "/reservations/{id}": {
+              "get": {
+                "summary": "Get details of a specific reservation",
+                "description": "Retrieve detailed information about a specific reservation",
+                "parameters": [
+                  {
+                    "in": "path",
+                    "name": "id",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "description": "The ID of the reservation",
+                    "example": "resv123"
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Reservation details",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/Reservation"
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Reservation not found"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              },
+              "put": {
+                "summary": "Update a reservation",
+                "description": "Update details of an existing reservation",
+                "parameters": [
+                  {
+                    "in": "path",
+                    "name": "id",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "description": "The ID of the reservation",
+                    "example": "resv123"
+                  }
+                ],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/NewReservation",
+                        "examples": {
+                          "example-1": {
+                            "summary": "Update reservation",
+                            "value": {
+                              "hotel_id": "hotel123",
+                              "guest_name": "John Doe",
+                              "check_in_date": "2024-07-01",
+                              "check_out_date": "2024-07-10",
+                              "number_of_guests": 2,
+                              "special_requests": "Near the elevator"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Reservation updated",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/Reservation"
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "Invalid request"
+                  },
+                  "404": {
+                    "description": "Reservation not found"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete a reservation",
+                "description": "Cancel a reservation at a hotel",
+                "parameters": [
+                  {
+                    "in": "path",
+                    "name": "id",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "description": "The ID of the reservation",
+                    "example": "resv123"
+                  }
+                ],
+                "responses": {
+                  "204": {
+                    "description": "Reservation deleted"
+                  },
+                  "404": {
+                    "description": "Reservation not found"
+                  },
+                  "500": {
+                    "description": "Server error"
+                  }
+                }
+              }
+            }
+          },
+          "components": {
+            "schemas": {
+              "Hotel": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The unique identifier for the hotel",
+                    "example": "hotel123"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the hotel",
+                    "example": "Grand Plaza Hotel"
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "The address of the hotel",
+                    "example": "123 Main St, New York, NY 10001"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "The city where the hotel is located",
+                    "example": "New York"
+                  },
+                  "price_per_night": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The price per night for the hotel",
+                    "example": 250
+                  },
+                  "rating": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The rating of the hotel",
+                    "example": 4.5
+                  },
+                  "amenities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "A list of amenities provided by the hotel",
+                    "example": [
+                      "Free WiFi",
+                      "Swimming Pool",
+                      "Gym",
+                      "Spa"
+                    ]
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A detailed description of the hotel",
+                    "example": "A luxurious hotel located in the heart of the city, offering comfortable rooms and excellent amenities."
+                  },
+                  "availability": {
+                    "type": "object",
+                    "properties": {
+                      "check_in_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The check-in date for the hotel stay",
+                        "example": "2024-07-01"
+                      },
+                      "check_out_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The check-out date for the hotel stay",
+                        "example": "2024-07-10"
+                      },
+                      "available_rooms": {
+                        "type": "integer",
+                        "description": "The number of available rooms for the specified dates",
+                        "example": 5
+                      }
+                    }
+                  }
+                }
+              },
+              "NewReservation": {
+                "type": "object",
+                "properties": {
+                  "hotel_id": {
+                    "type": "string",
+                    "description": "The ID of the hotel being reserved",
+                    "example": "hotel123"
+                  },
+                  "guest_name": {
+                    "type": "string",
+                    "description": "The name of the guest making the reservation",
+                    "example": "John Doe"
+                  },
+                  "check_in_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The check-in date for the reservation",
+                    "example": "2024-07-01"
+                  },
+                  "check_out_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The check-out date for the reservation",
+                    "example": "2024-07-10"
+                  },
+                  "number_of_guests": {
+                    "type": "integer",
+                    "description": "The number of guests for the reservation",
+                    "example": 2
+                  },
+                  "special_requests": {
+                    "type": "string",
+                    "description": "Any special requests for the reservation",
+                    "example": "High floor room"
+                  }
+                },
+                "required": [
+                  "hotel_id",
+                  "guest_name",
+                  "check_in_date",
+                  "check_out_date",
+                  "number_of_guests"
+                ]
+              },
+              "Reservation": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The unique identifier for the reservation",
+                    "example": "resv123"
+                  },
+                  "hotel_id": {
+                    "type": "string",
+                    "description": "The ID of the hotel being reserved",
+                    "example": "hotel123"
+                  },
+                  "guest_name": {
+                    "type": "string",
+                    "description": "The name of the guest making the reservation",
+                    "example": "John Doe"
+                  },
+                  "check_in_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The check-in date for the reservation",
+                    "example": "2024-07-01"
+                  },
+                  "check_out_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The check-out date for the reservation",
+                    "example": "2024-07-10"
+                  },
+                  "number_of_guests": {
+                    "type": "integer",
+                    "description": "The number of guests for the reservation",
+                    "example": 2
+                  },
+                  "special_requests": {
+                    "type": "string",
+                    "description": "Any special requests for the reservation",
+                    "example": "High floor room"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "apiArtifacts": {
+            "apiImages": {
+                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability.jpeg",
+                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+            }
+        }
+
+    },
+    "serverUrl": {
+        "sandboxUrl": "https://hotelavailability.api.sandbox.abc.com",
+        "productionUrl": "https://hotelavailability.api.abc.com"
+    }
+}

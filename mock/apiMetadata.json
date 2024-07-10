@@ -1,0 +1,45 @@
+[{
+    "apiInfo": {
+        "apiName": "AccommodationAPI",
+        "authenticate": true,
+        "apiArtifacts": {
+            "apiImages": {
+                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/accommodation.jpeg",
+                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/accommodation-mini.jpeg"
+            }
+        }
+    }
+},
+{
+    "apiInfo": {
+        "apiName": "LeisureActivitiesAPI",
+        "apiArtifacts": {
+            "apiImages": {
+                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/leisure.jpeg",
+                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/leisure-mini.jpeg"
+            }
+        }
+    }
+},
+{
+    "apiInfo": {
+        "apiName": "FamousAttractionsAPI",
+        "apiArtifacts": {
+            "apiImages": {
+                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/attractions.jpeg",
+                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/attractions-mini.jpeg"
+            }
+        }
+    }
+},
+{
+    "apiInfo": {
+        "apiName": "HotelAvailabilityAPI",
+        "apiArtifacts": {
+            "apiImages": {
+                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability.jpeg",
+                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+            }
+        }
+    }
+}]
