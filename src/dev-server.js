@@ -7,11 +7,25 @@ const markdown = require('markdown-it')();
 
 const app = express();
 
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.use(express.static(path.join(__dirname, '../public')));
+const filePath = path.join(__dirname, '../../node_modules');
+const filePrefix = '';
+
+if (fs.existsSync(filePath)) {
+    filePrefix = '../../'
+}
+
+app.engine('.hbs', engine({
+    extname: '.hbs',
+    helpers: {
+        fullUrl: (path) => {
+            return `${app.locals.baseUrl}${path}`;
+        }
+    }
+}));
+app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, filePrefix + 'views'));
 
 // Function to load and convert markdown file to HTML
 const loadMarkdown = (filename, dirName) => {
@@ -26,8 +40,8 @@ const loadMarkdown = (filename, dirName) => {
 
 // Wildcard route to render any page based on the URL
 app.get('*', (req, res) => {
-    if (req.path.includes('/api/')) {
-        const mockAPIDataPath = path.join(__dirname, '../mock', req.path.split('/').pop() + '/apiMetadata.json');
+    if (req.path.includes('/api/') && req.params[0].split('/').length == 4) {
+        const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.path.split('/').pop() + '/apiMetadata.json');
         const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
 
         res.render('apiTemplate', {
@@ -35,19 +49,28 @@ app.get('*', (req, res) => {
             content: loadMarkdown('apiContent.md', '../mock/' + req.path.split('/').pop())
         });
     } else if (req.path.includes('/apis')) {
-        const mockAPIMetaDataPath = path.join(__dirname, '../mock', 'apiMetadata.json');
+        const mockAPIMetaDataPath = path.join(__dirname, filePrefix + '../mock', 'apiMetadata.json');
         const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
-        
+
         res.render('apis', {
             apiMetadata: mockAPIMetaData
         });
-    } else {
+    } else if (req.params[0] === "/") {
+
         res.render('home', {
             content: loadMarkdown('home.md', 'content')
         });
+    } else if (req.path.includes('/tryout')) {
+        const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.path.split('/')[3] + '/apiMetadata.json');
+        const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
+
+        res.render('tryout', {
+            apiMetadata: JSON.stringify(mockAPIData)
+        });
+    } else {
+        res.render(req.params[0].split("/").pop(), {
+        });
     }
 });
-
-
 
 app.listen(3000);
