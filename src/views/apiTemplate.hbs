@@ -1,0 +1,21 @@
+<main class="api-section">
+    <div class="api-header">
+    <h1>{{apiMetadata.apiInfo.openApiDefinition.info.title}}</h1>
+  </div>
+    <section class="container">
+      <div class="version">
+        <p>Version: <span>{{apiMetadata.apiInfo.openApiDefinition.info.version}}</span></p>
+         <p> TryOut: <a href="http://localhost:3001/ABCOrganization/api/FamousAttractionsAPI/tryout#/"> {{apiMetadata.apiInfo.openApiDefinition.info.title}} </a> </p>
+      </div>
+      <div class="url">
+        <p>URL: <a href={{apiMetadata.serverUrl.productionUrl}}> {{apiMetadata.serverUrl.productionUrl}}
+          </a></p>
+      </div>
+    </section>
+    <section class="api-description-section">
+      <img class="api-image" src={{apiMetadata.apiInfo.apiArtifacts.apiImages.api-landing-page-image}}></img>
+      <p class="api-description" id="api-description">{{apiMetadata.apiInfo.openApiDefinition.info.description}}
+      </p>
+    </section>
+    <section>{{{content}}}</section>
+</main>
