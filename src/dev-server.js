@@ -7,11 +7,11 @@ const markdown = require('markdown-it')();
 
 const app = express();
 
-const filePath = path.join(__dirname, '../../node_modules');
-const filePrefix = '';
+const filePath = path.join(__dirname, '../../../node_modules');
+var filePrefix = '';
 
 if (fs.existsSync(filePath)) {
-    filePrefix = '../../'
+    filePrefix = '../../../src/';
 }
 
 app.engine('.hbs', engine({
@@ -29,7 +29,7 @@ app.set('views', path.join(__dirname, filePrefix + 'views'));
 
 // Function to load and convert markdown file to HTML
 const loadMarkdown = (filename, dirName) => {
-    const filePath = path.join(__dirname, dirName, filename);
+    const filePath = path.join(__dirname, filePrefix + dirName, filename);
     if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         return markdown.render(fileContent);
@@ -68,7 +68,8 @@ app.get('*', (req, res) => {
             apiMetadata: JSON.stringify(mockAPIData)
         });
     } else {
-        res.render(req.params[0].split("/").pop(), {
+        res.render(req.params[0].substring(1), {
+            content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content')
         });
     }
 });
