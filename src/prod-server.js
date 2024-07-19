@@ -10,6 +10,8 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, '/views'));
+
 
 // Middleware to load partials from the database
 app.use(async (req, res, next) => {
@@ -91,6 +93,19 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
 
     html = html.replaceAll("/images/", apiContetnUrl+ "&fileName=" )
     res.send(html);
+
+});
+
+app.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
+
+    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+    const metadataResponse = await fetch(apiMetaDataUrl);
+    const metaData = await metadataResponse.text();
+   // const openApiDefinition =JSON.parse(metaData);
+
+    res.render('tryout', {
+        apiMetadata: metaData
+    });
 
 });
 
