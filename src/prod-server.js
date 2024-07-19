@@ -59,4 +59,39 @@ app.get('/((?!favicon.ico)):orgName', async (req, res) => {
     }
 });
 
+app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
+
+    const orgFilesUrl = "http://localhost:8080/admin/orgFiles?orgName=" + req.params.orgName;
+    const apiContetnUrl = "http://localhost:9090/apiMetadata/apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/api?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+
+    const templateResponse = await fetch(orgFilesUrl + "&fileName=apiTemplate.hbs");
+    var templateContent = await templateResponse.text();
+
+    const layoutResponse = await fetch(orgFilesUrl + "&fileName=main.hbs");
+    var layoutContent = await layoutResponse.text();
+    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+
+    const metadataResponse = await fetch(apiMetaDataUrl);
+    const metaData = await metadataResponse.json();
+
+    const apiContentResponse = await fetch(apiContetnUrl+"&fileName=apiContent.md");
+    const apiContent = await apiContentResponse.text();
+    const apiContentHtml = apiContent ? markdown.render(apiContent) : '';
+
+    const template = Handlebars.compile(templateContent.toString());
+    const layout = Handlebars.compile(layoutContent.toString());
+
+    var html = layout({
+        body: template({
+            apiMetadata: metaData,
+            content: apiContentHtml,
+        }),
+    });
+
+    html = html.replaceAll("/images/", apiContetnUrl+ "&fileName=" )
+    res.send(html);
+
+});
+
 app.listen(3000);
