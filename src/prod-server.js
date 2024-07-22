@@ -19,9 +19,6 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(/\/((?!favicon.ico).*)/,async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
-    console.log("======================");
-
-    console.log(orgName);
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
     //attach partials
     const partialsResponse = await fetch(url);
