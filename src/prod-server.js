@@ -22,7 +22,6 @@ app.use(async (req, res, next) => {
     const partialsResponse = await fetch(url);
     var partials = await partialsResponse.json();
     var partialObject = {}
-    console.log(partials);
     if (partials.length > 0) {
         partials.forEach(file => {
             var fileName = file.pageName.split(".")[0];
@@ -32,8 +31,18 @@ app.use(async (req, res, next) => {
         });
     }
     const hbs = exphbs.create({});
-    hbs.handlebars.partials = partialObject
-    next()
+    hbs.handlebars.partials = partialObject;
+
+    Object.keys(partialObject).forEach(partialName => {
+        hbs.handlebars.registerPartial(partialName, partialObject[partialName]);
+    });
+
+    hbs.handlebars.partials = {
+        ...hbs.handlebars.partials,
+         header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
+    };
+
+    next();
 });
 
 // Route to render Handlebars templates fetched from the database
