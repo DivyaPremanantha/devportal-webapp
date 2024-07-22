@@ -4,6 +4,8 @@ const exphbs = require('express-handlebars');
 const { getFileFromDatabase, getAllPartials } = require('./db');
 const markdown = require('markdown-it')();
 const Handlebars = require('handlebars');
+var config = require('../config');
+
 const app = express();
 
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
@@ -14,17 +16,20 @@ app.set('views', path.join(__dirname, '/views'));
 
 
 // Middleware to load partials from the database
-app.use(async (req, res, next) => {
+app.use(/\/((?!favicon.ico).*)/,async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
-    const url = "http://localhost:8080/admin/orgFileType?orgName=" + orgName + "&fileType=partials";
+    console.log("======================");
+
+    console.log(orgName);
+    const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
     //attach partials
     const partialsResponse = await fetch(url);
     var partials = await partialsResponse.json();
     var partialObject = {}
     partials.forEach(file => {
         var fileName = file.pageName.split(".")[0];
-        var replaceUrl = "http://localhost:8080/admin/orgFiles?orgName=" + orgName;
+        var replaceUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
         var fileContent = file.pageContent.replace("/images/", replaceUrl + "&fileName=");
         partialObject[fileName] = fileContent;
     });
@@ -36,7 +41,7 @@ app.use(async (req, res, next) => {
 // Route to render Handlebars templates fetched from the database
 app.get('/((?!favicon.ico)):orgName', async (req, res) => {
 
-    const url = "http://localhost:8080/admin/orgFiles?orgName=" + req.params.orgName;
+    const url = config.adminAPI + "orgFiles?orgName=" + req.params.orgName;
     try {
         const templateResponse = await fetch(url + "&fileName=home.hbs");
         var templateContent = await templateResponse.text();
@@ -63,9 +68,9 @@ app.get('/((?!favicon.ico)):orgName', async (req, res) => {
 
 app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
 
-    const orgFilesUrl = "http://localhost:8080/admin/orgFiles?orgName=" + req.params.orgName;
-    const apiContetnUrl = "http://localhost:9090/apiMetadata/apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
-    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/api?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + req.params.orgName;
+    const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+    const apiMetaDataUrl = config.apiMetaDataAPI + "api?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
 
     const templateResponse = await fetch(orgFilesUrl + "&fileName=apiTemplate.hbs");
     var templateContent = await templateResponse.text();
@@ -77,7 +82,7 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
 
-    const apiContentResponse = await fetch(apiContetnUrl+"&fileName=apiContent.md");
+    const apiContentResponse = await fetch(apiContetnUrl + "&fileName=apiContent.md");
     const apiContent = await apiContentResponse.text();
     const apiContentHtml = apiContent ? markdown.render(apiContent) : '';
 
@@ -91,17 +96,17 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
         }),
     });
 
-    html = html.replaceAll("/images/", apiContetnUrl+ "&fileName=" )
+    html = html.replaceAll("/images/", apiContetnUrl + "&fileName=")
     res.send(html);
 
 });
 
 app.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
 
-    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+    const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
-   // const openApiDefinition =JSON.parse(metaData);
+    // const openApiDefinition =JSON.parse(metaData);
 
     res.render('tryout', {
         apiMetadata: metaData
