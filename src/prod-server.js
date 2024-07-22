@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const { getFileFromDatabase, getAllPartials } = require('./db');
 const markdown = require('markdown-it')();
 const Handlebars = require('handlebars');
 var config = require('../config');
@@ -10,13 +9,14 @@ const app = express();
 
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.use(express.static(path.join(__dirname, '../public')));
+const router = express.Router();
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 
 
 // Middleware to load partials from the database
-app.use(/\/((?!favicon.ico).*)/,async (req, res, next) => {
+app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
@@ -36,7 +36,7 @@ app.use(/\/((?!favicon.ico).*)/,async (req, res, next) => {
 });
 
 // Route to render Handlebars templates fetched from the database
-app.get('/((?!favicon.ico)):orgName', async (req, res) => {
+router.get('/((?!favicon.ico)):orgName', async (req, res) => {
 
     const url = config.adminAPI + "orgFiles?orgName=" + req.params.orgName;
     try {
@@ -63,10 +63,10 @@ app.get('/((?!favicon.ico)):orgName', async (req, res) => {
     }
 });
 
-app.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
+router.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
 
-    const orgFilesUrl = "http://localhost:8080/admin/orgFiles?orgName=" + req.params.orgName;
-    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/apiList?orgName=" + req.params.orgName;
+    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + req.params.orgName;
+    const apiMetaDataUrl = config.apiMetaDataAPI + "apiList?orgName=" + req.params.orgName;
 
     const templateResponse = await fetch(orgFilesUrl + "&fileName=apis.hbs");
     var templateContent = await templateResponse.text();
@@ -79,7 +79,7 @@ app.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
     const metaData = await metadataResponse.json();
 
     metaData.forEach(element => {
-        const apiImageUrl = "http://localhost:9090/apiMetadata/apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+        const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
         const modifiedApiImageURL = element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'].replace("/images/", apiImageUrl + "&fileName=");
         element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'] = modifiedApiImageURL;
     });
@@ -97,41 +97,7 @@ app.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
 
 });
 
-app.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
-
-    const orgFilesUrl = "http://localhost:8080/admin/orgFiles?orgName=" + req.params.orgName;
-    const apiMetaDataUrl = "http://localhost:9090/apiMetadata/apiList?orgName=" + req.params.orgName;
-
-    const templateResponse = await fetch(orgFilesUrl + "&fileName=apis.hbs");
-    var templateContent = await templateResponse.text();
-
-    const layoutResponse = await fetch(orgFilesUrl + "&fileName=main.hbs");
-    var layoutContent = await layoutResponse.text();
-    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
-
-    const metadataResponse = await fetch(apiMetaDataUrl);
-    const metaData = await metadataResponse.json();
-
-    metaData.forEach(element => {
-        const apiImageUrl = "http://localhost:9090/apiMetadata/apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
-        const modifiedApiImageURL = element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'].replace("/images/", apiImageUrl + "&fileName=");
-        element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'] = modifiedApiImageURL;
-    });
-
-    const template = Handlebars.compile(templateContent.toString());
-    const layout = Handlebars.compile(layoutContent.toString());
-
-    var html = layout({
-        body: template({
-            apiMetadata: metaData
-        }),
-    });
-
-    res.send(html);
-
-});
-
-app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
+router.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
 
     const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + req.params.orgName;
     const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
@@ -166,18 +132,17 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
 
 });
 
-app.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
+router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
 
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
-    // const openApiDefinition =JSON.parse(metaData);
-    // const openApiDefinition =JSON.parse(metaData);
 
     res.render('tryout', {
         apiMetadata: metaData
     });
 
 });
+app.use('/', router);
 
 app.listen(3000);
