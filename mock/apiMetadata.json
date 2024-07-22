@@ -4,8 +4,8 @@
         "authenticate": true,
         "apiArtifacts": {
             "apiImages": {
-                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/accommodation.jpeg",
-                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/accommodation-mini.jpeg"
+                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
+                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
             }
         }
     }
@@ -15,8 +15,8 @@
         "apiName": "LeisureActivitiesAPI",
         "apiArtifacts": {
             "apiImages": {
-                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/leisure.jpeg",
-                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/leisure-mini.jpeg"
+                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
+                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
             }
         }
     }
@@ -26,8 +26,8 @@
         "apiName": "FamousAttractionsAPI",
         "apiArtifacts": {
             "apiImages": {
-                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/attractions.jpeg",
-                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/attractions-mini.jpeg"
+                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
+                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
             }
         }
     }
@@ -37,8 +37,8 @@
         "apiName": "HotelAvailabilityAPI",
         "apiArtifacts": {
             "apiImages": {
-                "api-landing-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability.jpeg",
-                "api-detail-page-image": "https://devportal-content.s3.amazonaws.com/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
+                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
             }
         }
     }
