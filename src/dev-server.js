@@ -86,48 +86,87 @@ app.get('/callback', (req, res, next) => {
 }, passport.authenticate('openidconnect', {
     failureRedirect: '/login'
 }), (req, res) => {
-    res.redirect('/');
+    // Retrieve the original URL from the session
+    const returnTo = req.session.returnTo || '/';
+    // Clear the returnTo variable from the session
+    // delete req.session.returnTo;
+    res.redirect(returnTo);
 });
 
-// Wildcard route to render any page based on the URL
-app.get('*', (req, res) => {
+// Middleware to check authentication
+const ensureAuthenticated = (req, res, next) => {
+    const pageChecks = [
+        { pattern: /^\/api\/[^/]+$/, page: 'APILANDING' }, // Matches /api/:apiName
+        { pattern: /^\/tryout\/[^/]+$/, page: 'TRYOUT' },  // Matches /tryout/:apiName
+        { pattern: /^\/apis$/, page: 'APILISTING' },              // Matches /apis
+        { pattern: /^\/$/, page: 'ORGLANDING' }                   // Matches /
+    ];
 
-    if (req.isAuthenticated()) {
-        if (req.path.includes('/api/') && req.params[0].split('/').length == 3) {
-            const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.path.split('/').pop() + '/apiMetadata.json');
-            const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
-
-            res.render('apiTemplate', {
-                apiMetadata: mockAPIData,
-                content: loadMarkdown('apiContent.md', '../mock/' + req.path.split('/').pop())
-            });
-        } else if (req.path.includes('/apis')) {
-            const mockAPIMetaDataPath = path.join(__dirname, filePrefix + '../mock', 'apiMetadata.json');
-            const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
-
-            res.render('apis', {
-                apiMetadata: mockAPIMetaData
-            });
-        } else if (req.params[0] === "/") {
-            res.render('home', {
-                content: loadMarkdown('home.md', 'content')
-            });
-        } else if (req.path.includes('/tryout')) {
-            const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.path.split('/')[2] + '/apiMetadata.json');
-            const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
-
-            res.render('tryout', {
-                apiMetadata: JSON.stringify(mockAPIData)
-            });
+    if (pageChecks.some(check => check.pattern.test(req.path) && orgDetails.authenticatedPages.includes(check.page))) {
+        if (req.isAuthenticated()) {
+            return next();
         } else {
-            res.render(req.params[0].substring(1), {
-                content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content')
-            });
+            req.session.returnTo = req.originalUrl || '/';
+            res.redirect('/login');
         }
-    }
-    else {
-        res.redirect('/login');
-    }
+    } else {
+        return next(); 
+    };
+};
+
+
+// API Route
+app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
+
+    const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
+    const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
+
+    res.render('apiTemplate', {
+        apiMetadata: mockAPIData,
+        content: loadMarkdown('apiContent.md', '../mock/' + req.params.apiName)
+    });
+
+});
+
+// APIs Route
+app.get('/apis', ensureAuthenticated, (req, res) => {
+
+    const mockAPIMetaDataPath = path.join(__dirname, filePrefix + '../mock', 'apiMetadata.json');
+    const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
+
+    res.render('apis', {
+        apiMetadata: mockAPIMetaData
+    });
+
+});
+
+// Home Route
+app.get('/', ensureAuthenticated, (req, res) => {
+    res.render('home', {
+        content: loadMarkdown('home.md', 'content')
+    });
+
+});
+
+// Tryout Route
+app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
+
+    const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
+    const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
+
+    res.render('tryout', {
+        apiMetadata: JSON.stringify(mockAPIData)
+    });
+
+});
+
+// Wildcard Route for other pages
+app.get('*', ensureAuthenticated, (req, res) => {
+
+    res.render(req.params[0].substring(1), {
+        content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content')
+    });
+
 });
 
 app.listen(3000);
