@@ -12,6 +12,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 const router = express.Router();
 
 app.set('view engine', 'hbs');
+
 app.set('views', path.join(__dirname, '/views'));
 
 
@@ -19,6 +20,7 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
+
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
     //attach partials
     const partialsResponse = await fetch(url);
@@ -28,7 +30,7 @@ app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
         var fileName = file.pageName.split(".")[0];
         var replaceUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
         var fileContent = file.pageContent.replace("/images/", replaceUrl + "&fileName=");
-        partialObject[fileName] = fileContent;
+        partialObject[fileName] = file.pageContent;
     });
     const hbs = exphbs.create({});
     hbs.handlebars.partials = partialObject;
@@ -102,7 +104,6 @@ router.get('/((?!favicon.ico)):orgName/apis', async (req, res) => {
             apiMetadata: metaData
         }),
     });
-
     res.send(html);
 
 });
@@ -140,6 +141,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
     html = html.replaceAll("/images/", apiContetnUrl + "&fileName=")
     res.send(html);
 
+
 });
 
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
@@ -153,6 +155,42 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) =>
     });
 
 });
+
+router.get('/((?!favicon.ico)*)', async (req, res) => {
+
+    const orgName = req.originalUrl.split("/")[1];
+    const filePath = req.originalUrl.split(orgName)[1];
+    const markdonwFile = req.params[0].split("/").pop() + ".md";
+    const url = config.adminAPI + "orgFiles?orgName=" + orgName;
+    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=template&filePath=" + filePath;
+    try {
+        const templateResponse = await fetch(templateURL);
+        var templateContent = await templateResponse.text();
+        templateContent = templateContent.replace("/images/", url + "&fileName=");
+        const layoutResponse = await fetch(url + "&fileName=main.hbs");
+        var layoutContent = await layoutResponse.text();
+        layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
+        const markdownResponse = await fetch(url + "&fileName=" + markdonwFile);
+        const markdownContent = await markdownResponse.text();
+        const markdownHtml = markdownContent ? markdown.render(markdownContent) : '';
+        const template = Handlebars.compile(templateContent.toString());
+        const layout = Handlebars.compile(layoutContent.toString());
+
+        var md = {
+            content: markdownHtml
+        }
+        const html = layout({
+            body: template(md),
+        });
+        res.send(html);
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+
+
 app.use('/', router);
 
 app.listen(3000);

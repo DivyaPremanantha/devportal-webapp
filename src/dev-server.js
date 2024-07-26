@@ -84,7 +84,7 @@ app.get('/login', (req, res, next) => {
 app.get('/callback', (req, res, next) => {
     next();
 }, passport.authenticate('openidconnect', {
-    failureRedirect: '/login'
+    failureRedirect: '/login', keepSessionInfo: true 
 }), (req, res) => {
     // Retrieve the original URL from the session
     const returnTo = req.session.returnTo || '/';
