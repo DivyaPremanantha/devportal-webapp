@@ -6,11 +6,15 @@ const markdown = require('markdown-it')();
 const session = require('express-session');
 const passport = require('passport');
 const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
+const minimatch = require('minimatch');
 
 const app = express();
 
 const filePath = path.join(__dirname, '../../../node_modules');
 var filePrefix = '';
+
+const authJsonPath = path.join(__dirname, filePrefix + '../mock', 'auth.json');
+const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
 
 if (fs.existsSync(filePath)) {
     filePrefix = '../../../src/';
@@ -24,14 +28,11 @@ app.set('views', path.join(__dirname, filePrefix + 'views'));
 app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 
 app.use(session({
-    secret: 'NrOy9PQEIEf3AftygGQU8TckGcbwJvT3cvWfd21jHDAa',
+    secret: authJson.clientSecret,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
-
-const authJsonPath = path.join(__dirname, filePrefix + '../mock', 'auth.json');
-const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
 
 const orgDetailsPath = path.join(__dirname, filePrefix + '../mock', 'orgDetails.json');
 const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
@@ -95,14 +96,7 @@ app.get('/callback', (req, res, next) => {
 
 // Middleware to check authentication
 const ensureAuthenticated = (req, res, next) => {
-    const pageChecks = [
-        { pattern: /^\/api\/[^/]+$/, page: 'APILANDING' }, // Matches /api/:apiName
-        { pattern: /^\/tryout\/[^/]+$/, page: 'TRYOUT' },  // Matches /tryout/:apiName
-        { pattern: /^\/apis$/, page: 'APILISTING' },              // Matches /apis
-        { pattern: /^\/$/, page: 'ORGLANDING' }                   // Matches /
-    ];
-
-    if (pageChecks.some(check => check.pattern.test(req.path) && orgDetails.authenticatedPages.includes(check.page))) {
+    if (req.originalUrl != '/favicon.ico' && orgDetails.authenticatedPages.some(pattern => minimatch.minimatch(req.originalUrl, pattern))) {
         if (req.isAuthenticated()) {
             return next();
         } else {
