@@ -1,4 +1,4 @@
 {
     "orgName": "ABCOrganization",
-    "authenticatedPages": ["APILANDING"]
+    "authenticatedPages": ["/api", "/apis", "/tryout"]
 }
