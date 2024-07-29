@@ -1,4 +1,4 @@
 {
     "orgName": "ABCOrganization",
-    "authenticatedPages": ["/api/*", "/apis", "/tryout"]
+    "authenticatedPages": []
 }
