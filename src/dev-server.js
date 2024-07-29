@@ -2,7 +2,7 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');
 const fs = require('fs');
-const markdown = require('markdown-it')();
+const marked = require('marked');
 const session = require('express-session');
 const passport = require('passport');
 const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
@@ -75,7 +75,7 @@ const loadMarkdown = (filename, dirName) => {
     const filePath = path.join(__dirname, filePrefix + dirName, filename);
     if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        return markdown.render(fileContent);
+        return marked.parse(fileContent);
     } else {
         return null;
     }
@@ -143,9 +143,8 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
 // Home Route
 app.get('/', ensureAuthenticated, (req, res) => {
     res.render('home', {
-        content: loadMarkdown('home.md', 'content')
+        heroContent: loadMarkdown('hero.md', 'content')
     });
-
 });
 
 // Tryout Route

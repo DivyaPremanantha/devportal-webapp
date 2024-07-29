@@ -22,10 +22,6 @@ body {
     text-align: center;
   }
   
-  .container {
-    display: flex;
-  }
-  
   .version, .url a {
     flex: 1;
     margin: 0; /* Remove default margin */
