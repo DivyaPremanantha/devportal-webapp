@@ -1,0 +1,81 @@
+/* styles/components/header.css */
+
+.custom-navbar {
+  background-color: #4285f4;
+  padding: 10px 20px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+  width: 100px;
+}
+
+.navbar-nav {
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-nav li {
+  margin-bottom: 0px;
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff;
+  margin-right: 20px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #cce7ff;
+}
+
+.navbar-nav .dropdown-menu {
+  background-color: #ffffff;
+}
+
+.navbar-nav .dropdown-item {
+  color: #000000;
+}
+
+.navbar-nav .dropdown-item:hover {
+  background-color: #cce7ff;
+}
+
+.custom-signup-btn {
+  background-color: #0f2751;
+  border-color: #1a73e8;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 5px 20px;
+  margin-right: 5px;
+  font-size: 13px;
+}
+
+.custom-signup-btn:hover {
+  background-color: #081d42;
+  border-color: #0c5bd3;
+}
+
+.custom-login-btn {
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 5px 20px;
+  border: 0px;
+  font-size: 13px;
+}
+
+.custom-login-btn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  border-radius: 20px;
+  background-color: #4285f4;
+  border: 3px;
+}

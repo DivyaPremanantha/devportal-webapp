@@ -1,40 +1,66 @@
-<header>
-   <nav class="navbar navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/images/logo.png" width="30" height="30">
-                DEPT
+<html>
+
+  <head>
+    <link rel="stylesheet" href="/styles/component/header.css" />
+  </head>
+
+  <header>
+    <nav class="navbar navbar-expand-lg custom-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/CompanyName.svg"
+            alt="Logo"
+          />
+        </a>
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">APIs</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Company
             </a>
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">APIs</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Company
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Developers
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <a class="nav-link" href="#">Support</a>
-            </div>
-            <div class="container-fluid nav justify-content-end">
-                <input class="btn btn-primary ml-2" type="button" value="SignUp">
-                <button type="button" class="btn btn-outline-info">LogIn</button>
-                </div>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Developers
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <a class="nav-link" href="#">Support</a>
         </div>
+        <div class="container-fluid nav justify-content-end">
+          <input
+            class="btn btn-primary custom-signup-btn"
+            type="button"
+            value="Sign Up"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-info custom-login-btn"
+          >Log In</button>
+        </div>
+      </div>
     </nav>
-</header>
+  </header>
+</html>
