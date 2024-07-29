@@ -142,8 +142,12 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
 
 // Home Route
 app.get('/', ensureAuthenticated, (req, res) => {
+    const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
+    const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
+
     res.render('home', {
-        heroContent: loadMarkdown('hero.md', 'content')
+        heroContent: loadMarkdown('hero.md', 'content'),
+        userProfiles: mockProfileData
     });
 });
 
