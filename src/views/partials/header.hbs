@@ -1,12 +1,39 @@
 <header>
-    <h1>{{pageTitle}}</h1>
-    <nav class="navbar">
-    <div class="navbar-container">
-        <a id="org-logo" href="{{baseUrl}}/"><img src="/images/logo.png" class="navbar-logo"></a>
-        <div class="navbar-links" id="nav-bar">
-            <a href="{{baseUrl}}/" class="navbar-link" id="org-home"> Home </a>
-            <a href="{{baseUrl}}/apis" class="navbar-link" id="org-apis"> APIs </a>
+   <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" width="30" height="30">
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">APIs</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Company
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Developers
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <a class="nav-link" href="#">Support</a>
+            </div>
+            <div class="container-fluid nav justify-content-end">
+                <input class="btn btn-primary ml-2" type="button" value="SignUp">
+                <button type="button" class="btn btn-outline-info">LogIn</button>
+                </div>
         </div>
-    </div>
     </nav>
 </header>

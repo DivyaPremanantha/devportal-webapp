@@ -156,9 +156,9 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) =>
 
 });
 
-router.get('/((?!favicon.ico)*)', async (req, res) => {
+router.get('/((?!favicon.ico):orgName/*)', async (req, res) => {
 
-    const orgName = req.originalUrl.split("/")[1];
+    const orgName = req.params.orgName;
     const filePath = req.originalUrl.split(orgName)[1];
     const markdonwFile = req.params[0].split("/").pop() + ".md";
     const url = config.adminAPI + "orgFiles?orgName=" + orgName;
