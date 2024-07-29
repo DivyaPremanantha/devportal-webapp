@@ -16,6 +16,9 @@ var filePrefix = '';
 const authJsonPath = path.join(__dirname, filePrefix + '../mock', 'auth.json');
 const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
 
+const orgDetailsPath = path.join(__dirname, filePrefix + '../mock', 'orgDetails.json');
+const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
+
 if (fs.existsSync(filePath)) {
     filePrefix = '../../../src/';
 }
@@ -27,29 +30,31 @@ app.set('views', path.join(__dirname, filePrefix + 'views'));
 
 app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 
+
 app.use(session({
-    secret: authJson.clientSecret,
+    secret: authJson.clientSecret ? authJson.clientSecret : ' ',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-const orgDetailsPath = path.join(__dirname, filePrefix + '../mock', 'orgDetails.json');
-const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
+
 // Configure the OpenID Connect strategy
-passport.use(new OpenIDConnectStrategy({
-    issuer: authJson.issuer,
-    authorizationURL: authJson.authorizationURL,
-    tokenURL: authJson.tokenURL,
-    userInfoURL: authJson.userInfoURL,
-    clientID: authJson.clientID,
-    clientSecret: authJson.clientSecret,
-    callbackURL: authJson.callbackURL,
-    scope: authJson.scope,
-}, (issuer, sub, profile, accessToken, refreshToken, done) => {
-    // Here you can handle the user's profile and tokens
-    return done(null, profile);
-}));
+if (orgDetails.authenticatedPages.length > 0) {
+    passport.use(new OpenIDConnectStrategy({
+        issuer: authJson.issuer,
+        authorizationURL: authJson.authorizationURL,
+        tokenURL: authJson.tokenURL,
+        userInfoURL: authJson.userInfoURL,
+        clientID: authJson.clientID,
+        clientSecret: authJson.clientSecret,
+        callbackURL: authJson.callbackURL,
+        scope: authJson.scope,
+    }, (issuer, sub, profile, accessToken, refreshToken, done) => {
+        // Here you can handle the user's profile and tokens
+        return done(null, profile);
+    }));
+}
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -85,8 +90,8 @@ app.get('/login', (req, res, next) => {
 app.get('/callback', (req, res, next) => {
     next();
 }, passport.authenticate('openidconnect', {
-    failureRedirect: '/login', 
-    keepSessionInfo: true 
+    failureRedirect: '/login',
+    keepSessionInfo: true
 }), (req, res) => {
     // Retrieve the original URL from the session
     const returnTo = req.session.returnTo || '/';
@@ -105,7 +110,7 @@ const ensureAuthenticated = (req, res, next) => {
             res.redirect('/login');
         }
     } else {
-        return next(); 
+        return next();
     };
 };
 
