@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+:root {
+  --main-bg-color: #f0f0f0;
+  --main-text-color: #333333;
+  --primary-color: #3e6ff2;
+  --secondary-color: #0f2751;
+  --light-color: #ffc371;
+  --dark-color: #0f3971;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --font-colour-primary: #ffffff;
+  --border-colour-primary: #1a73e8;
+  --border-colour-secondary: #ffffff;
+
+  --font-family-sans: "Poppins", sans-serif;
+  --font-family-serif: "Sofia Sans", serif;
+  --font-family-mono: "Roboto", monospace;
+
+  --btn-border-radius: 25px;
+  --btn-padding: 12px 24px;
+  --btn-font-size: 14px;
+  --btn-transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.common-btn {
+  border: none;
+  border-radius: var(--btn-border-radius);
+  padding: var(--btn-padding);
+  font-size: var(--btn-font-size);
+  cursor: pointer;
+  transition: var(--btn-transition);
+}
