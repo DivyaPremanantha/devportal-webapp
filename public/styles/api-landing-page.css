@@ -1,69 +1,69 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    font-size: large;
-    text-align: justify;
-  }
-  
-  .api-section {
-    display: flex;
-    flex-direction: column;
-    max-width: 1200px;
-    margin: 0px auto;
-  }
-  
-  .api-description-section {
-    display: flex;
-  }
-  
-  .api-header {
-    color: #fff;
-    text-align: center;
-  }
-  
-  .version, .url a {
-    flex: 1;
-    margin: 0; /* Remove default margin */
-  }
-  
-  .version span {
-    font-weight: bold; /* Make version number bold */
-  }
-  
-  .url a {
-    flex: 1;
-    text-decoration: none; /* Remove underline from link */
-    color: blue; /* Change link color */
-  }
-  
-  .url a:hover {
-    text-decoration: underline; /* Add underline on hover */
-    color: darkblue; /* Change link color on hover */
-  }
-  
-  
-  h1, h2 {
-    color: #333;
-  }
-  
-  p, ul {
-    color: #555;
-  }
-  
-  ul {
-    list-style-type: disc;
-    padding-left: 20px;
-  }
-  
-  li {
-    margin-bottom: 10px;
-  }
-  
-  .api-image{
-    width: 40%;
-    height: auto;
-    margin: 10px 60px 20px 0px;
-    text-align: center;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-size: large;
+  text-align: justify;
+}
+
+.api-section {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0px auto;
+}
+
+.api-description-section {
+  display: flex;
+}
+
+.api-header {
+  color: #fff;
+  text-align: center;
+}
+
+.version,
+.url a {
+  flex: 1;
+  margin: 0;
+}
+
+.version span {
+  font-weight: bold;
+}
+
+.url a {
+  flex: 1;
+  text-decoration: none;
+  color: blue;
+}
+
+.url a:hover {
+  text-decoration: underline;
+  color: darkblue;
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+p,
+ul {
+  color: #555;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.api-image {
+  width: 40%;
+  height: auto;
+  margin: 10px 60px 20px 0px;
+  text-align: center;
+}
