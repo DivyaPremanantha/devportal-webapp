@@ -1,4 +1,4 @@
-<main class="components-page">
+{{!-- <main class="components-page">
     {{#apiMetadata}}
     <section class="components-inner-section">
         <img class="components-img" src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}}></img>
@@ -16,4 +16,11 @@
         </div>
     </section>
     {{/apiMetadata}}
+</main> --}}
+
+<main>
+    {{> search }}
+    {{> api-list }}
+    {{> pagination }}
+    {{> community }}
 </main>

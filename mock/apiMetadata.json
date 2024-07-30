@@ -1,45 +1,201 @@
-[{
-    "apiInfo": {
-        "apiName": "AccommodationAPI",
-        "authenticate": true,
-        "apiArtifacts": {
-            "apiImages": {
-                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
-                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+[
+    {
+        "apiInfo": {
+            "apiName": "AccommodationAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "authenticate": true,
+            "openApiDefinition": {
+                "info": {
+                    "title": "Accommodation API",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "LeisureActivitiesAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "LeisureActivitiesAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "FamousAttractionsAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "FamousAttractionsAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "HotelAvailabilityAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "HotelAvailabilityAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "info": {
+                "title": "Accommodation API",
+                "description": "API for managing accommodations and reservations in a specified city",
+                "version": "1.0.0"
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "AccommodationAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "AccommodationAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "authenticate": true,
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "LeisureActivitiesAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "LeisureActivitiesAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "FamousAttractionsAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "FamousAttractionsAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
+                }
+            }
+        }
+    },
+    {
+        "apiInfo": {
+            "apiName": "HotelAvailabilityAPI",
+            "apiCategory": "Travel",
+            "tags": [
+                "leisure",
+                "activities",
+                "reservations"
+            ],
+            "openApiDefinition": {
+                "info": {
+                    "title": "HotelAvailabilityAPI",
+                    "description": "API for managing accommodations and reservations in a specified city",
+                    "version": "1.0.0"
+                }
+            },
+            "apiArtifacts": {
+                "apiImages": {
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+                }
             }
         }
     }
-},
-{
-    "apiInfo": {
-        "apiName": "LeisureActivitiesAPI",
-        "apiArtifacts": {
-            "apiImages": {
-                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
-                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
-            }
-        }
-    }
-},
-{
-    "apiInfo": {
-        "apiName": "FamousAttractionsAPI",
-        "apiArtifacts": {
-            "apiImages": {
-                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
-            }
-        }
-    }
-},
-{
-    "apiInfo": {
-        "apiName": "HotelAvailabilityAPI",
-        "apiArtifacts": {
-            "apiImages": {
-                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
-                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
-            }
-        }
-    }
-}]
+]
