@@ -60,9 +60,9 @@
                 <div class="col align-self-center">
                     <div class="row container-fluid">
                         {{#apiMetadata}}
-                        <div class="card lg-3" style="max-width: 320px;">
+                        <div class="card lg-3" style="max-width: 340px;">
                             <img src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}}
-                                class="img-fluid rounded-start" alt="...">
+                                class="img-fluid rounded-start img-thumbnail" width="200" height="200" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title text-start">{{apiInfo.apiName}}</h5>
                                 <h6 class="card-subtitle mb-2 text-body-secondary text-start">{{apiInfo.apiCategory}}
@@ -77,12 +77,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg">
-                                        <button type="button"
-                                            class="btn btn-outline-info custom-signup-btn">Overview</button>
+                                        <button type="button" class="common-btn herobtn-primary">Overview</button>
                                     </div>
                                     <div class="col-lg">
-                                        <button type="button"
-                                            class="btn btn-outline-info custom-signup-btn">Documentation</button>
+                                        <button type="button" class="common-btn herobtn-secondary">Documentation</button>
                                     </div>
                                 </div>
                             </div>
