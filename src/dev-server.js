@@ -121,9 +121,9 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
 
-    res.render('apiTemplate', {
+    res.render('apiDetailTemplate', {
         apiMetadata: mockAPIData,
-        content: loadMarkdown('apiContent.md', '../mock/' + req.params.apiName)
+        keyFeaturesContent: loadMarkdown('keyfeatures.md', '../mock/' + req.params.apiName)
     });
 
 });
