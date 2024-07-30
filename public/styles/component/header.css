@@ -1,10 +1,7 @@
-/* styles/components/header.css */
-
 .custom-navbar {
-  background-color: #4285f4;
+  background-color: var(--primary-color);
   padding: 10px 20px;
-  height: 60px;
-  margin-bottom: 10px;
+  height: 64px;
 }
 
 .navbar-brand {
@@ -17,8 +14,9 @@
   width: 100px;
 }
 
-.navbar-nav {
-  font-size: 13px;
+.navbar-nav,
+a {
+  font-size: 14px;
   justify-content: center;
   align-items: center;
 }
@@ -28,7 +26,7 @@
 }
 
 .navbar-nav .nav-link {
-  color: #ffffff;
+  color: var(--font-colour-primary);
   margin-right: 20px;
 }
 
@@ -38,44 +36,63 @@
 }
 
 .navbar-nav .dropdown-menu {
-  background-color: #ffffff;
+  background-color: var(--font-colour-primary);
 }
 
 .navbar-nav .dropdown-item {
-  color: #000000;
+  color: var(--main-text-color);
 }
 
 .navbar-nav .dropdown-item:hover {
-  background-color: #cce7ff;
+  background-color: var(--main-bg-color);
 }
 
 .custom-signup-btn {
-  background-color: #0f2751;
-  border-color: #1a73e8;
-  color: #ffffff;
-  border-radius: 20px;
-  padding: 5px 20px;
+  background-color: var(--secondary-color);
+  border-color: var(--border-colour-primary);
+  color: var(--font-colour-primary);
+  border-radius: 25px;
+  padding: 8px 20px;
   margin-right: 5px;
-  font-size: 13px;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .custom-signup-btn:hover {
-  background-color: #081d42;
-  border-color: #0c5bd3;
+  background-color: var(--secondary-color);
+  border-color: var(--border-colour-primary);
+}
+
+.custom-signup-btn:focus {
+  box-shadow: 0 0 0 1px rgba(226, 225, 252, 0.5);
+  background-color: var(--dark-color);
+  color: var(--font-colour-primary);
+}
+
+.custom-signup-btn:active {
+  filter: brightness(0.9);
 }
 
 .custom-login-btn {
-  color: #ffffff;
+  color: var(--font-colour-primary);
   border-radius: 20px;
   padding: 5px 20px;
   border: 0px;
-  font-size: 13px;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .custom-login-btn:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-  border-radius: 20px;
-  background-color: #4285f4;
-  border: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--font-colour-primary);
+}
+
+.custom-login-btn:focus {
+  box-shadow: 0 0 0 1px rgba(226, 225, 252, 0.5);
+  background-color: var(--dark-color);
+  color: var(--font-colour-primary);
+}
+
+.custom-login-btn:active {
+  filter: brightness(0.9);
 }
