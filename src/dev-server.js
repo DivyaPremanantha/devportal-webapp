@@ -40,7 +40,7 @@ app.use(session({
 
 
 // Configure the OpenID Connect strategy
-if (orgDetails.authenticatedPages.length > 0) {
+if (authJson.clientSecret) {
     passport.use(new OpenIDConnectStrategy({
         issuer: authJson.issuer,
         authorizationURL: authJson.authorizationURL,
