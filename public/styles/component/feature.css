@@ -22,7 +22,7 @@
 
 .feature-subtitle {
   padding-right: 90px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .feature-subtitle h5 {
@@ -33,27 +33,6 @@
 
 .align-text-top {
   vertical-align: top;
-}
-
-.feature-btn-primary {
-  background-color: transparent;
-  border: 1px solid var(--main-bg-color);
-  color: var(--font-colour-primary);
-  padding: 8px 24px;
-}
-
-.feature-btn-primary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.feature-btn-primary:active {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.feature-btn-primary :focus {
-  background-color: var(--dark-color);
-  color: var(--font-colour-primary);
-  border: none;
 }
 
 .feature-product {

@@ -1,9 +1,9 @@
 .community-container {
-  background: var(--main-bg-color);
+  background: var(--light-bg-color);
 }
 
 .community-content {
-  padding: 40px 120px;
+  padding: 40px 70px;
   border-bottom: 1px solid #ccc;
   margin: 0 45px;
 }
@@ -25,12 +25,4 @@
 
 .community-action {
   text-align: right;
-}
-
-.community-button {
-  background-color: var(--secondary-color);
-  color: var(--font-colour-primary);
-  padding: 8px 24px;
-  margin-left: 5px;
-  margin-top: 3px;
 }
