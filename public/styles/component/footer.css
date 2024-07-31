@@ -73,9 +73,7 @@
   color: var(--main-text-color);
 }
 
-.newsletterbtn-primary {
-  background-color: var(--secondary-color);
-  color: var(--font-colour-primary);
+.sub-btn {
   padding: 8px 24px;
   margin-left: 5px;
   margin-top: 3px;
