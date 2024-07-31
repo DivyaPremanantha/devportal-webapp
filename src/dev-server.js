@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
 const minimatch = require('minimatch');
+const exphbs = require('express-handlebars');
 
 const app = express();
 
@@ -18,6 +19,8 @@ const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
 
 const orgDetailsPath = path.join(__dirname, filePrefix + '../mock', 'orgDetails.json');
 const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
+
+const hbs = exphbs.create({});
 
 if (fs.existsSync(filePath)) {
     filePrefix = '../../../src/';
@@ -114,16 +117,17 @@ const ensureAuthenticated = (req, res, next) => {
     };
 };
 
-
 // API Route
 app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
 
     const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
+    const filePath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiContent.hbs');
+
+    hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
 
     res.render('apiDetailTemplate', {
-        apiMetadata: mockAPIData,
-        keyFeaturesContent: loadMarkdown('keyfeatures.md', '../mock/' + req.params.apiName)
+        apiMetadata: mockAPIData
     });
 
 });
