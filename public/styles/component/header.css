@@ -37,6 +37,7 @@ a {
 
 .navbar-nav .dropdown-menu {
   background-color: var(--font-colour-primary);
+  border: none;
 }
 
 .navbar-nav .dropdown-item {
