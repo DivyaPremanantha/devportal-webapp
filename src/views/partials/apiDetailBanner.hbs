@@ -9,6 +9,11 @@
             <span class="badge text-bg-primary">{{apiMetadata.apiInfo.apiCategory}}</span>
         </div>
     </div>
+        <div class="row">
+        <div class="d-flex align-items-center mt-1">
+            <p>{{apiMetadata.apiInfo.openApiDefinition.info.description}}</p>
+        </div>
+    </div>
     <div class="row">
         <div class="d-flex flex-wrap">
             {{#apiMetadata.apiInfo.tags}}
