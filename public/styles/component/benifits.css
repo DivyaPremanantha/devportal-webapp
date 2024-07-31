@@ -1,10 +1,5 @@
 .benefits-container {
-  background-color: linear-gradient(
-    180deg,
-    #fff 0%,
-    #f3f3f3 46.06%,
-    #fff 101.47%
-  );
+  background-color: var(--light-bg-color);
   text-align: center;
   padding: 60px 40px 20px 40px;
 }

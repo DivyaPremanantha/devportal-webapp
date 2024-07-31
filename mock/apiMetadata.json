@@ -1,12 +1,13 @@
 [
     {
         "apiInfo": {
-            "apiName": "AccommodationAPI",
-            "apiCategory": "Travel",
+            "apiName": "Payment Initiation (PSD2)",
+            "apiCategory": "Payments",
             "tags": [
-                "leisure",
-                "activities",
-                "reservations"
+                "Payment",
+                "Trending",
+                "Rest",
+                "+4"
             ],
             "authenticate": true,
             "openApiDefinition": {
@@ -18,8 +19,8 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg",
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -43,7 +44,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -67,7 +68,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -96,7 +97,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -121,7 +122,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -145,7 +146,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -169,7 +170,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -193,7 +194,7 @@
             "apiArtifacts": {
                 "apiImages": {
                     "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability-mini.jpeg"
+                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }

@@ -1,7 +1,6 @@
-.community-container {
-  background: var(--light-bg-color);
+body {
+  background-color: var(--main-bg-color);
 }
-
 .community-content {
   padding: 40px 70px;
   border-bottom: 1px solid #ccc;
