@@ -1,6 +1,8 @@
 {
     "apiInfo": {
         "apiName": "FamousAttractionsAPI",
+        "apiCategory": "Transportation",
+        "tags": ["leisure", "activities", "reservations"],
         "openApiDefinition": {
           "openapi": "3.0.1",
           "info": {
