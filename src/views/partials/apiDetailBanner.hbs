@@ -1,0 +1,25 @@
+<div class="container text-left">
+    <div class="row">
+        <img class="img-thumbnail" src={{apiMetadata.apiInfo.apiArtifacts.apiImages.api-landing-page-image}}
+            style="max-width: 100px;"> </img>
+    </div>
+    <div class="row">
+        <div class="d-flex align-items-center mt-4">
+            <h4 class="mb-0 me-2">{{apiMetadata.apiInfo.openApiDefinition.info.title}}</h4>
+            <span class="badge text-bg-primary">{{apiMetadata.apiInfo.apiCategory}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex flex-wrap">
+            {{#apiMetadata.apiInfo.tags}}
+            <span class="badge text-bg-primary" style="margin: 5px;">{{this}}</span>
+            {{/apiMetadata.apiInfo.tags}}
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <button class="btn btn-primary mt-4" type="button">Try Out</button>
+            <button class="btn btn-primary mt-4 ms-2" type="button">Documentation</button>
+        </div>
+    </div>
+</div>

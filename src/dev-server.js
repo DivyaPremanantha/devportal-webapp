@@ -40,7 +40,7 @@ app.use(session({
 
 
 // Configure the OpenID Connect strategy
-if (orgDetails.authenticatedPages.length > 0) {
+if (authJson.clientSecret) {
     passport.use(new OpenIDConnectStrategy({
         issuer: authJson.issuer,
         authorizationURL: authJson.authorizationURL,
@@ -121,9 +121,9 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
 
-    res.render('apiTemplate', {
+    res.render('apiDetailTemplate', {
         apiMetadata: mockAPIData,
-        content: loadMarkdown('apiContent.md', '../mock/' + req.params.apiName)
+        keyFeaturesContent: loadMarkdown('keyfeatures.md', '../mock/' + req.params.apiName)
     });
 
 });
@@ -142,8 +142,12 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
 
 // Home Route
 app.get('/', ensureAuthenticated, (req, res) => {
+    const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
+    const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
+
     res.render('home', {
-        heroContent: loadMarkdown('hero.md', 'content')
+        heroContent: loadMarkdown('hero.md', 'content'),
+        userProfiles: mockProfileData
     });
 });
 
