@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
 :root {
-  --main-bg-color: #f0f0f0;
+  --main-bg-color: #f7f8fb;
+  --light-bg-color: #ffffff;
   --main-text-color: #40404b;
   --dark-text-color: #000000;
   --primary-color: #3e6ff2;
@@ -33,4 +34,19 @@
   font-size: var(--btn-font-size);
   cursor: pointer;
   transition: var(--btn-transition);
+}
+
+.dev-sub-header h5 {
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-color);
+  vertical-align: top;
+}
+
+.dev-header h2 {
+  font-size: 30px;
+  margin-bottom: 45px;
+  font-weight: 600;
+  color: var(--main-text-color);
 }
