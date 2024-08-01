@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const markdown = require('markdown-it')();
 const Handlebars = require('handlebars');
 var config = require('../config');
 
@@ -20,7 +19,6 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
-
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
     //attach partials
     const partialsResponse = await fetch(url);
@@ -30,7 +28,7 @@ app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
         var fileName = file.pageName.split(".")[0];
         var replaceUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
         var fileContent = file.pageContent.replace("/images/", replaceUrl + "&fileName=");
-        partialObject[fileName] = file.pageContent;
+        partialObject[fileName] = fileContent;
     });
     const hbs = exphbs.create({});
     hbs.handlebars.partials = partialObject;
@@ -41,7 +39,7 @@ app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
 
     hbs.handlebars.partials = {
         ...hbs.handlebars.partials,
-         header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
+        header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
     };
 
     next();
@@ -58,16 +56,14 @@ router.get('/((?!favicon.ico)):orgName', async (req, res) => {
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
-        const markdownResponse = await fetch(url + "&fileName=home.md");
-        const markdownContent = await markdownResponse.text();
-        const markdownHtml = markdownContent ? markdown.render(markdownContent) : '';
+        // const markdownResponse = await fetch(url + "&fileName=home.md");
+        // const markdownContent = await markdownResponse.text();
+        // const markdownHtml = markdownContent ? markdown.render(markdownContent) : '';
         const template = Handlebars.compile(templateContent.toString());
         const layout = Handlebars.compile(layoutContent.toString());
 
         const html = layout({
-            body: template({
-                content: markdownHtml
-            }),
+            body: template
         });
         res.send(html);
     } catch (err) {
@@ -124,17 +120,12 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
 
-    const apiContentResponse = await fetch(apiContetnUrl + "&fileName=apiContent.md");
-    const apiContent = await apiContentResponse.text();
-    const apiContentHtml = apiContent ? markdown.render(apiContent) : '';
-
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
     var html = layout({
         body: template({
-            apiMetadata: metaData,
-            content: apiContentHtml,
+            apiMetadata: metaData        
         }),
     });
 
