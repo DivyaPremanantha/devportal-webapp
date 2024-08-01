@@ -122,7 +122,8 @@ app.get('/', ensureAuthenticated, (req, res) => {
     const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
 
     res.render('home', {
-        userProfiles: mockProfileData
+        userProfiles: mockProfileData,
+        authJson: authJson
     });
 });
 
@@ -136,7 +137,8 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
 
     res.render('apiDetailTemplate', {
-        apiMetadata: mockAPIData
+        apiMetadata: mockAPIData,
+        authJson: authJson
     });
 
 });
@@ -148,7 +150,8 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
     const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
 
     res.render('apis', {
-        apiMetadata: mockAPIMetaData
+        apiMetadata: mockAPIMetaData,
+        authJson: authJson
     });
 
 });
@@ -160,7 +163,8 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
 
     res.render('tryout', {
-        apiMetadata: JSON.stringify(mockAPIData)
+        apiMetadata: JSON.stringify(mockAPIData),
+        authJson: authJson
     });
 
 });
@@ -169,7 +173,8 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 app.get('*', ensureAuthenticated, (req, res) => {
 
     res.render(req.params[0].substring(1), {
-        content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content')
+        content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content'),
+        authJson: authJson
     });
 
 });
