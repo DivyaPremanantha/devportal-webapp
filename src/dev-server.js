@@ -116,6 +116,15 @@ const ensureAuthenticated = (req, res, next) => {
         return next();
     };
 };
+// Home Route
+app.get('/', ensureAuthenticated, (req, res) => {
+    const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
+    const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
+
+    res.render('home', {
+        userProfiles: mockProfileData
+    });
+});
 
 // API Route
 app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
@@ -142,17 +151,6 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
         apiMetadata: mockAPIMetaData
     });
 
-});
-
-// Home Route
-app.get('/', ensureAuthenticated, (req, res) => {
-    const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
-    const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
-
-    res.render('home', {
-        heroContent: loadMarkdown('hero.md', 'content'),
-        userProfiles: mockProfileData
-    });
 });
 
 // Tryout Route
