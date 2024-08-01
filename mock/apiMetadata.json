@@ -36,7 +36,7 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "LeisureActivitiesAPI",
+                    "title": "Leisure Activities API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }
@@ -60,7 +60,7 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "FamousAttractionsAPI",
+                    "title": "Famous Attractions API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }
@@ -84,15 +84,10 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "HotelAvailabilityAPI",
+                    "title": "Hotel Availability API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }
-            },
-            "info": {
-                "title": "Accommodation API",
-                "description": "API for managing accommodations and reservations in a specified city",
-                "version": "1.0.0"
             },
             "apiArtifacts": {
                 "apiImages": {
@@ -113,7 +108,7 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "AccommodationAPI",
+                    "title": "Accommodation API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }
@@ -138,7 +133,7 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "LeisureActivitiesAPI",
+                    "title": "Leisure Activities API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }
@@ -162,7 +157,7 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "FamousAttractionsAPI",
+                    "title": "Famous Attractions API",
                     "description": "API for managing accommodations and reservations in a specified city",
                     "version": "1.0.0"
                 }

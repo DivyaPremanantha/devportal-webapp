@@ -1,6 +1,6 @@
 {
     "apiInfo": {
-        "apiName": "Leisure Activities",
+        "apiName": "LeisureActivitiesAPI",
         "orgName": "ABCOrganization",
         "apiCategory": "Transportation",
         "tags": ["leisure", "activities", "reservations"],

@@ -1,6 +1,7 @@
 <head>
-  <link rel="stylesheet" href="/styles/component/api-detail-banner.css" />
+    <link rel="stylesheet" href="/styles/component/api-detail-banner.css" />
 </head>
+
 <div class="container-fluid text-left api-banner-container">
     <div class="row">
         <img class="img-thumbnail" src={{apiMetadata.apiInfo.apiArtifacts.apiImages.api-landing-page-image}}
@@ -12,7 +13,7 @@
             <span class="badge text-bg-primary">{{apiMetadata.apiInfo.apiCategory}}</span>
         </div>
     </div>
-        <div class="row">
+    <div class="row">
         <div class="d-flex align-items-center mt-1">
             <p>{{apiMetadata.apiInfo.openApiDefinition.info.description}}</p>
         </div>
@@ -25,9 +26,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="buttons"> 
-            <button type="button" class="common-btn-primary">Try Out</button>
-            <button type="button" class="common-btn-secondary">Documentation</button>
+        <div class="buttons">
+            <a type="button" class="common-btn-primary" href="{{apiMetadata.apiInfo.apiName}}/tryout">Try Out</a>
+            <a type="button" class="common-btn-secondary">Documentation</a>
         </div>
     </div>
 </div>
