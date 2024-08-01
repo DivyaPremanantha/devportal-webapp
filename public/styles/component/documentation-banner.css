@@ -20,23 +20,6 @@
   margin-bottom: 20px;
 }
 
-.banner-btn {
-  padding: 10px 20px;
-  border: 1px solid;
-  background-color: transparent;
-  color: var(--font-colour-primary);
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  display: inline-block;
-}
-
-.banner-btn:hover {
-  background-color: var(--light-bg-color);
-  color: var(--primary-color);
-  transform: scale(1.1);
-}
-
 .banner-image {
   margin-right: 20px;
 }
