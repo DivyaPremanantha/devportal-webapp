@@ -26,10 +26,9 @@ app.use(/\/((?!favicon.ico).*)/, async (req, res, next) => {
     var partialObject = {}
     partials.forEach(file => {
         var fileName = file.pageName.split(".")[0];
-        var replaceUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
-        var fileContent = file.pageContent.replace("/images/", replaceUrl + "&fileName=");
-        partialObject[fileName] = fileContent;
+        partialObject[fileName] = file.pageContent;
     });
+
     const hbs = exphbs.create({});
     hbs.handlebars.partials = partialObject;
 
@@ -52,7 +51,7 @@ router.get('/((?!favicon.ico)):orgName', async (req, res) => {
     try {
         const templateResponse = await fetch(url + "&fileName=home.hbs");
         var templateContent = await templateResponse.text();
-        templateContent = templateContent.replace("/images/", url + "&fileName=");
+        //templateContent = templateContent.replace("/images/", url + "&fileName=");
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
@@ -110,7 +109,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
     const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "api?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
 
-    const templateResponse = await fetch(orgFilesUrl + "&fileName=apiTemplate.hbs");
+    const templateResponse = await fetch(orgFilesUrl + "&fileName=apiDetailTemplate.hbs");
     var templateContent = await templateResponse.text();
 
     const layoutResponse = await fetch(orgFilesUrl + "&fileName=main.hbs");
@@ -123,16 +122,19 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', async (req, res) => {
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
+    var contentResponse = await fetch(apiContetnUrl + "&fileName=apiContent.hbs");
+    contentResponse = await contentResponse.text();
+
+    // partialObject = {}
+    const hbs = exphbs.create({});
+    hbs.handlebars.registerPartial('apiContent', contentResponse);
+
     var html = layout({
         body: template({
             apiMetadata: metaData        
         }),
     });
-
-    html = html.replaceAll("/images/", apiContetnUrl + "&fileName=")
     res.send(html);
-
-
 });
 
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', async (req, res) => {
@@ -157,7 +159,7 @@ router.get('/((?!favicon.ico):orgName/*)', async (req, res) => {
     try {
         const templateResponse = await fetch(templateURL);
         var templateContent = await templateResponse.text();
-        templateContent = templateContent.replace("/images/", url + "&fileName=");
+        //templateContent = templateContent.replace("/images/", url + "&fileName=");
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
