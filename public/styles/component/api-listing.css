@@ -9,7 +9,7 @@ body {
 
 .api-filterlist {
   color: var(--main-text-color);
-  padding: 10px 20px;
+  padding: 10px 0 10px 40px;
 }
 
 .filter-header {
