@@ -8,20 +8,6 @@ body {
   padding-top: 50px;
 }
 
-.dev-header h2 {
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 3px;
-}
-
-.dev-header h5 {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 12px;
-  font-weight: 300;
-  color: var( --main-text-color);;
-}
-
 .search-container {
   display: flex;
   justify-content: center;

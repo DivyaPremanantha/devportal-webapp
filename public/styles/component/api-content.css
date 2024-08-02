@@ -24,7 +24,7 @@
     font-size: 14px;
   }
 
-  .card {
+  .card-content {
     background-color: var(--light-bg-color);
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -33,17 +33,5 @@
     width: 400px;
     text-align: left;
   }
-
-  .common-btn-secondary {
-    border: 1px solid var(--dark-color);
-    border-radius: 25px;
-    padding: 12px 24px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    background-color: transparent;
-    color: var(--secondary-color);
-  }
-
  
 
