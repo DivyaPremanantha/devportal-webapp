@@ -23,7 +23,7 @@
   font-weight: 600;
 }
 
-.badge-custom1 {
+.api-badge-custom1 {
   border: 1px solid var(--border-colour-secondary);
   background-color: transparent;
   color: var(--font-colour-primary);
@@ -31,11 +31,12 @@
   margin: 2px 0 8px 8px;
 }
 
-.badge-custom2 {
+.api-badge-custom2 {
   border: 1px solid var(--border-colour-secondary);
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
   padding: 3px 5px;
+  margin: 5px 5px 2px 0;
 }
 
 .api-desciption {

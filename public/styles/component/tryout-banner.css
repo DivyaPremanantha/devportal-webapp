@@ -1,16 +1,27 @@
-.banner-content h1 {
-    font-weight: 600;
-    font-size: 30px;
-    color: var(--font-colour-primary);
+.tryout-banner-content {
+  text-align: center;
+  padding: 50px;
+  background-color: var(--primary-color);
+  max-height: 450px;
 }
 
-.banner-content p {
-    font-size: 20px;
-    color: var(--font-colour-primary);
-    margin-bottom: 20px;
-  }
+.tryout-banner-content h1 {
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--font-colour-primary);
+}
 
-.banner-content {
-    background-color: var(--primary-color);
-    padding: 20px 50px;
+.tryout-banner-content p {
+  font-size: 15px;
+  color: var(--font-colour-primary);
+  margin-bottom: 40px;
+  line-height: 1.2;
+}
+
+.tryout-banner-btn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
