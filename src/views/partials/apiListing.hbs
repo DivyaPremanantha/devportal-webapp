@@ -1,8 +1,4 @@
-<head>
-  <link rel="stylesheet" href="/styles/component/api-listing.css" />
-</head>
-
-<body>
+<section>
   <div class="container-fluid apilist-container">
     <div class="row list-items">
       <div class="col-lg-2 api-filterlist">
@@ -67,14 +63,14 @@
           <div class="col">
             <div class="row list-items container-fluid">
               {{#apiMetadata}}
-              <div class="card lg-3">
-                <img src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}} width="200" height="200" alt="..." />
-                <div class="card-body">
-                  <h5 class="card-title">{{apiInfo.openApiDefinition.info.title}}</h5>
+              <div class="card api-card lg-3">
+                <img src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}} class="api-card-img" alt="..." />
+                <div class="api-card-body">
+                  <h5 class="api-card-title">{{apiInfo.openApiDefinition.info.title}}</h5>
                   <span class="badge badge-custom1">{{apiInfo.apiCategory}}</span>
                   <p>{{apiInfo.openApiDefinition.info.description}}</p>
                   <div class="row list-items">
-                    <div class="d-flex flex-wrap">
+                    <div class="api-tags">
                       {{#apiInfo.tags}}
                       <span class="badge badge-custom2">{{this}}</span>
                       {{/apiInfo.tags}}
@@ -99,4 +95,4 @@
       </div>
     </div>
   </div>
-</body>
+</section>

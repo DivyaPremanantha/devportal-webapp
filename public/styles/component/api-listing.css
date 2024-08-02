@@ -9,7 +9,7 @@ body {
 
 .api-filterlist {
   color: var(--main-text-color);
-  padding: 10px 20px;
+  padding: 10px 0 10px 40px;
 }
 
 .filter-header {
@@ -49,7 +49,7 @@ hr {
   margin-left: 5px;
 }
 
-.card {
+.api-card  {
   background-color: var(--light-bg-color);
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -59,7 +59,7 @@ hr {
   text-align: left;
 }
 
-.card img {
+.api-card-img {
   width: 60px;
   height: 60px;
   box-sizing: border-box;
@@ -68,21 +68,26 @@ hr {
   object-fit: cover;
 }
 
-.card-body {
+.api-card-body {
   padding: 0;
   margin: 0;
 }
 
-.card-title {
+.api-card-title {
   font-size: 16px;
   color: var(--main-text-color);
   margin: 0;
 }
 
-.card p {
+.api-card p {
   font-size: 14px;
   color: var(--main-text-color);
   margin: 0;
+}
+
+.api-tags{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .badge {
