@@ -2,11 +2,11 @@
     "apiInfo": {
         "apiName": "AccommodationAPI",
         "apiCategory": "Transportation",
-        "tags": ["leisure", "activities", "reservations"],
+        "tags": ["Payment", "Trending", "REST", "Recently Added", "Status", "Transaction", "PSD2"],
         "openApiDefinition":{
           "openapi": "3.0.1",
           "info": {
-            "title": "Accommodation API",
+            "title": "Accommodation API (PSD2)",
             "description": "API for managing accommodations and reservations in a specified city",
             "version": "1.0.0"
           },

@@ -1,32 +1,33 @@
 <section>
-<div class="container-fluid text-left api-banner-container">
-    <div class="row">
-        <img class="img-thumbnail" src={{apiMetadata.apiInfo.apiArtifacts.apiImages.api-landing-page-image}}
-            style="max-width: 100px;"> </img>
+  <div class="container-fluid api-banner-container">
+    <div class="col-12">
+      <div class="col-12 col-md-auto">
+        <img
+          class="img-thumbnail api-image"
+          src="{{apiMetadata.apiInfo.apiArtifacts.apiImages.api-landing-page-image}}"
+          alt="API Image"
+        />
+      </div>
+      <div class="api-title">
+        <h4>{{apiMetadata.apiInfo.openApiDefinition.info.title}}</h4>
+        <span
+          class="badge badge-custom1"
+        >{{apiMetadata.apiInfo.apiCategory}}</span>
+      </div>
+      <p class="api-desciption">{{apiMetadata.apiInfo.openApiDefinition.info.description}}</p>
+      <div class="api-tags">
+        {{#apiMetadata.apiInfo.tags}}
+          <span class="badge badge-custom2">{{this}}</span>
+        {{/apiMetadata.apiInfo.tags}}
+      </div>
+      <div class="api-details-btn ">
+        <a
+          type="button"
+          class="common-btn-primary"
+          href="{{apiMetadata.apiInfo.apiName}}/tryout"
+        >Try Out</a>
+        <a type="button" class="common-btn-secondary">Documentation</a>
+      </div>
     </div>
-    <div class="row">
-        <div class="d-flex align-items-center mt-4">
-            <h4 class="mb-0 me-2">{{apiMetadata.apiInfo.openApiDefinition.info.title}}</h4>
-            <span class="badge text-bg-primary">{{apiMetadata.apiInfo.apiCategory}}</span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="d-flex align-items-center mt-1">
-            <p>{{apiMetadata.apiInfo.openApiDefinition.info.description}}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="d-flex flex-wrap">
-            {{#apiMetadata.apiInfo.tags}}
-            <span class="badge text-bg-primary" style="margin: 5px;">{{this}}</span>
-            {{/apiMetadata.apiInfo.tags}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="buttons">
-            <a type="button" class="common-btn-primary" href="{{apiMetadata.apiInfo.apiName}}/tryout">Try Out</a>
-            <a type="button" class="common-btn-secondary">Documentation</a>
-        </div>
-    </div>
-</div>
+  </div>
 </section>
