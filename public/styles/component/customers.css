@@ -43,7 +43,9 @@
   align-items: center;
 }
 
-.explore-link a i {
+.explore-link .bi-arrow-right {
   margin-left: 5px;
-  opacity: 0.8;
+  color: var(--primary-color);
+  font-size: 15px;
+  margin-top: -5px;
 }

@@ -1,37 +1,106 @@
-.api-content-container {
-    padding: 60px 40px 20px 40px;
+.features-container {
+  padding: 60px 40px 20px 40px;
+  background-color: var(--main-bg-color);
+  text-align: center;
 }
 
-.features-container {
-    background-color: linear-gradient(
-      180deg,
-      #fff 0%,
-      #f3f3f3 46.06%,
-      #fff 101.47%
-    );
-    text-align: center;
-  }
+.api-overview {
+  padding: 40px 80px;
+  background-color: var(--light-bg-color);
+}
 
-  .features-list {
-    display: flex;
-    justify-content: space-around;
-    align-items: start;
-    text-align: left;
-  }
+.overview-title {
+  font-size: 36px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
 
-  .api-content-text p {
-    color: var(--main-text-color);
-    font-size: 14px;
-  }
+.api-content-text .intro-text,
+.api-sidebar {
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 900px;
+}
 
-  .card-content {
-    background-color: var(--light-bg-color);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 10px;
-    width: 400px;
-    text-align: left;
-  }
- 
+.section-title {
+  font-size: 16px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
 
+.requirement-list {
+  padding: 0;
+  list-style: none;
+}
+
+.requirement-list li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.requirement-list .bi {
+  vertical-align: 0;
+}
+
+.api-sidebar {
+  border: 1px solid var(--primary-color);
+  padding: 35px;
+  border-radius: 32px;
+  background-color: transparent;
+}
+
+.api-list {
+  list-style: none;
+  padding: 0;
+}
+
+.api-list li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.api-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.api-sidebar .common-btn-secondary {
+  border-color: var(--main-text-color);
+  color: var(--main-text-color);
+  padding: 5px 40px;
+  margin-top: 8px;
+}
+
+.api-sidebar .common-btn-secondary:hover {
+  background-color: var(--main-text-color);
+  border-color: var(--font-colour-primary);
+  color: var(--font-colour-primary);
+}
+
+.api-sidebar .common-btn-secondary:active {
+  background-color: var(--main-text-color);
+  border-color: var(--font-colour-primary);
+  color: var(--font-colour-primary);
+}

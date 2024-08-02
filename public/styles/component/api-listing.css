@@ -90,14 +90,6 @@ hr {
   flex-wrap: wrap;
 }
 
-.badge {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: 500;
-}
-
 .badge-custom1 {
   border: 1px solid var(--border-colour-primary);
   background-color: #eff6ff;
