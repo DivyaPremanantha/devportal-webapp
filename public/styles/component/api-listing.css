@@ -59,7 +59,7 @@ hr {
   text-align: left;
 }
 
-.card img {
+.api-card-img {
   width: 60px;
   height: 60px;
   box-sizing: border-box;
@@ -68,21 +68,26 @@ hr {
   object-fit: cover;
 }
 
-.card-body {
+.api-card-body {
   padding: 0;
   margin: 0;
 }
 
-.card-title {
+.api-card-title {
   font-size: 16px;
   color: var(--main-text-color);
   margin: 0;
 }
 
-.card p {
+.api-card p {
   font-size: 14px;
   color: var(--main-text-color);
   margin: 0;
+}
+
+.api-tags{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .badge {

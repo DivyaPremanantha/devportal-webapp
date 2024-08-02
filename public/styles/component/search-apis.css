@@ -6,6 +6,13 @@ body {
 .search-content {
   background-color: var(--main-bg-color);
   padding-top: 50px;
+  text-align: center;
+}
+
+.api-list-header{
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .search-container {
