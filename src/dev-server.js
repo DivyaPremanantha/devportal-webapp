@@ -52,7 +52,7 @@ if (authJson.clientSecret) {
         clientID: authJson.clientID,
         clientSecret: authJson.clientSecret,
         callbackURL: authJson.callbackURL,
-        scope: authJson.scope,
+        scope: authJson.scope.split(" "),
     }, (issuer, sub, profile, accessToken, refreshToken, done) => {
         // Here you can handle the user's profile and tokens
         return done(null, profile);
@@ -85,6 +85,7 @@ const loadMarkdown = (filename, dirName) => {
 };
 
 // Route to start the authentication process
+
 app.get('/login', (req, res, next) => {
     next();
 }, passport.authenticate('openidconnect'));
