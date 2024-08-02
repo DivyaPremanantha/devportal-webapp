@@ -50,12 +50,7 @@ hr {
 }
 
 .api-card  {
-  background-color: var(--light-bg-color);
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  width: 300px;
+  max-width: 300px;
   text-align: left;
 }
 
@@ -77,6 +72,7 @@ hr {
   font-size: 16px;
   color: var(--main-text-color);
   margin: 0;
+  font-weight: 600;
 }
 
 .api-card p {
@@ -121,8 +117,17 @@ hr {
   border: 1px solid var(--border-colour-primary);
 }
 
+.apilistbtn-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--font-colour-primary);
+}
+ 
 .apilistbtn-secondary {
   background-color: transparent;
   color: var(--border-colour-primary);
   border: none;
+}
+
+.apilistbtn-secondary:hover {
+  color: var(--dark-color);
 }
