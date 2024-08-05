@@ -1,251 +1,254 @@
 {
-    "apiInfo": {
-        "apiName": "FamousAttractionsAPI",
-        "apiCategory": "Transportation",
-        "tags": ["leisure", "activities", "reservations"],
-        "openApiDefinition": {
-          "openapi": "3.0.1",
-          "info": {
-            "title": "Famous Attractions API",
-            "description": "API for retrieving information about famous attractions in various cities",
-            "version": "1.0.0"
-          },
-          "servers": [
-            {
-              "url": "https://stoplight.io/mocks/attractions/famattractions/413819828",
-              "description": "Main (production) server"
-            },
-            {
-              "url": "https://stoplight.io/mocks/attractions/famattractions/413819828",
-              "description": "Staging server"
-            }
-          ],
-          "paths": {
-            "/attractions": {
-              "get": {
-                "summary": "Get a list of famous attractions",
-                "description": "Retrieve a list of famous attractions in the specified city",
-                "parameters": [
-                  {
-                    "in": "query",
-                    "name": "city",
+  "apiInfo": {
+    "apiName": "FamousAttractionsAPI",
+    "apiCategory": "Transportation",
+    "tags": [
+      "leisure",
+      "activities",
+      "reservations"
+    ],
+    "openApiDefinition": {
+      "openapi": "3.0.1",
+      "info": {
+        "title": "Famous Attractions API",
+        "description": "API for retrieving information about famous attractions in various cities",
+        "version": "1.0.0"
+      },
+      "servers": [
+        {
+          "url": "https://stoplight.io/mocks/attractions/famattractions/413819828",
+          "description": "Main (production) server"
+        },
+        {
+          "url": "https://stoplight.io/mocks/attractions/famattractions/413819828",
+          "description": "Staging server"
+        }
+      ],
+      "paths": {
+        "/attractions": {
+          "get": {
+            "summary": "Get a list of famous attractions",
+            "description": "Retrieve a list of famous attractions in the specified city",
+            "parameters": [
+              {
+                "in": "query",
+                "name": "city",
+                "schema": {
+                  "type": "string"
+                },
+                "required": true,
+                "description": "The name of the city to search attractions in",
+                "example": "London"
+              },
+              {
+                "in": "query",
+                "name": "category",
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The category of the attractions (e.g., historical, museum, park)",
+                "example": "historical"
+              },
+              {
+                "in": "query",
+                "name": "min_rating",
+                "schema": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "description": "Minimum rating of the attractions",
+                "example": 4
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "A list of famous attractions",
+                "content": {
+                  "application/json": {
                     "schema": {
-                      "type": "string"
-                    },
-                    "required": true,
-                    "description": "The name of the city to search attractions in",
-                    "example": "London"
-                  },
-                  {
-                    "in": "query",
-                    "name": "category",
-                    "schema": {
-                      "type": "string"
-                    },
-                    "description": "The category of the attractions (e.g., historical, museum, park)",
-                    "example": "historical"
-                  },
-                  {
-                    "in": "query",
-                    "name": "min_rating",
-                    "schema": {
-                      "type": "number",
-                      "format": "float"
-                    },
-                    "description": "Minimum rating of the attractions",
-                    "example": 4
-                  }
-                ],
-                "responses": {
-                  "200": {
-                    "description": "A list of famous attractions",
-                    "content": {
-                      "application/json": {
-                        "schema": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/Attraction"
-                          }
-                        }
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Attraction"
                       }
                     }
-                  },
-                  "400": {
-                    "description": "Invalid parameters"
-                  },
-                  "500": {
-                    "description": "Server error"
                   }
                 }
-              }
-            },
-            "/attractions/{id}": {
-              "get": {
-                "summary": "Get details of a specific attraction",
-                "description": "Retrieve detailed information about a specific attraction",
-                "parameters": [
-                  {
-                    "in": "path",
-                    "name": "id",
-                    "schema": {
-                      "type": "string"
-                    },
-                    "required": true,
-                    "description": "The ID of the attraction",
-                    "example": "attr123"
-                  }
-                ],
-                "responses": {
-                  "200": {
-                    "description": "Attraction details",
-                    "content": {
-                      "application/json": {
-                        "schema": {
-                          "$ref": "#/components/schemas/Attraction"
-                        }
-                      }
-                    }
-                  },
-                  "404": {
-                    "description": "Attraction not found"
-                  },
-                  "500": {
-                    "description": "Server error"
-                  }
-                }
+              },
+              "400": {
+                "description": "Invalid parameters"
+              },
+              "500": {
+                "description": "Server error"
               }
             }
-          },
-          "components": {
-            "schemas": {
-              "Attraction": {
+          }
+        },
+        "/attractions/{id}": {
+          "get": {
+            "summary": "Get details of a specific attraction",
+            "description": "Retrieve detailed information about a specific attraction",
+            "parameters": [
+              {
+                "in": "path",
+                "name": "id",
+                "schema": {
+                  "type": "string"
+                },
+                "required": true,
+                "description": "The ID of the attraction",
+                "example": "attr123"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Attraction details",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Attraction"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Attraction not found"
+              },
+              "500": {
+                "description": "Server error"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Attraction": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the attraction",
+                "example": "attr123"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the attraction",
+                "example": "The British Museum"
+              },
+              "city": {
+                "type": "string",
+                "description": "The city where the attraction is located",
+                "example": "London"
+              },
+              "address": {
+                "type": "string",
+                "description": "The address of the attraction",
+                "example": "Great Russell St, Bloomsbury, London WC1B 3DG, UK"
+              },
+              "category": {
+                "type": "string",
+                "description": "The category of the attraction",
+                "example": "Museum"
+              },
+              "description": {
+                "type": "string",
+                "description": "A detailed description of the attraction",
+                "example": "A public institution dedicated to human history, art, and culture."
+              },
+              "rating": {
+                "type": "number",
+                "format": "float",
+                "description": "The rating of the attraction",
+                "example": 4.8
+              },
+              "opening_hours": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "monday": {
                     "type": "string",
-                    "description": "The unique identifier for the attraction",
-                    "example": "attr123"
+                    "description": "Opening hours on Monday",
+                    "example": "10:00 AM - 5:30 PM"
                   },
-                  "name": {
+                  "tuesday": {
                     "type": "string",
-                    "description": "The name of the attraction",
-                    "example": "The British Museum"
+                    "description": "Opening hours on Tuesday",
+                    "example": "10:00 AM - 5:30 PM"
                   },
-                  "city": {
+                  "wednesday": {
                     "type": "string",
-                    "description": "The city where the attraction is located",
-                    "example": "London"
+                    "description": "Opening hours on Wednesday",
+                    "example": "10:00 AM - 5:30 PM"
                   },
-                  "address": {
+                  "thursday": {
                     "type": "string",
-                    "description": "The address of the attraction",
-                    "example": "Great Russell St, Bloomsbury, London WC1B 3DG, UK"
+                    "description": "Opening hours on Thursday",
+                    "example": "10:00 AM - 5:30 PM"
                   },
-                  "category": {
+                  "friday": {
                     "type": "string",
-                    "description": "The category of the attraction",
-                    "example": "Museum"
+                    "description": "Opening hours on Friday",
+                    "example": "10:00 AM - 8:30 PM"
                   },
-                  "description": {
+                  "saturday": {
                     "type": "string",
-                    "description": "A detailed description of the attraction",
-                    "example": "A public institution dedicated to human history, art, and culture."
+                    "description": "Opening hours on Saturday",
+                    "example": "10:00 AM - 5:30 PM"
                   },
-                  "rating": {
+                  "sunday": {
+                    "type": "string",
+                    "description": "Opening hours on Sunday",
+                    "example": "10:00 AM - 5:30 PM"
+                  }
+                }
+              },
+              "images": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "A list of image URLs of the attraction",
+                "example": [
+                  "https://example.com/images/british-museum-1.jpg",
+                  "https://example.com/images/british-museum-2.jpg"
+                ]
+              },
+              "ticket_price": {
+                "type": "object",
+                "properties": {
+                  "adult": {
                     "type": "number",
                     "format": "float",
-                    "description": "The rating of the attraction",
-                    "example": 4.8
+                    "description": "Ticket price for adults",
+                    "example": 20
                   },
-                  "opening_hours": {
-                    "type": "object",
-                    "properties": {
-                      "monday": {
-                        "type": "string",
-                        "description": "Opening hours on Monday",
-                        "example": "10:00 AM - 5:30 PM"
-                      },
-                      "tuesday": {
-                        "type": "string",
-                        "description": "Opening hours on Tuesday",
-                        "example": "10:00 AM - 5:30 PM"
-                      },
-                      "wednesday": {
-                        "type": "string",
-                        "description": "Opening hours on Wednesday",
-                        "example": "10:00 AM - 5:30 PM"
-                      },
-                      "thursday": {
-                        "type": "string",
-                        "description": "Opening hours on Thursday",
-                        "example": "10:00 AM - 5:30 PM"
-                      },
-                      "friday": {
-                        "type": "string",
-                        "description": "Opening hours on Friday",
-                        "example": "10:00 AM - 8:30 PM"
-                      },
-                      "saturday": {
-                        "type": "string",
-                        "description": "Opening hours on Saturday",
-                        "example": "10:00 AM - 5:30 PM"
-                      },
-                      "sunday": {
-                        "type": "string",
-                        "description": "Opening hours on Sunday",
-                        "example": "10:00 AM - 5:30 PM"
-                      }
-                    }
+                  "child": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Ticket price for children",
+                    "example": 10
                   },
-                  "images": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "A list of image URLs of the attraction",
-                    "example": [
-                      "https://example.com/images/british-museum-1.jpg",
-                      "https://example.com/images/british-museum-2.jpg"
-                    ]
-                  },
-                  "ticket_price": {
-                    "type": "object",
-                    "properties": {
-                      "adult": {
-                        "type": "number",
-                        "format": "float",
-                        "description": "Ticket price for adults",
-                        "example": 20
-                      },
-                      "child": {
-                        "type": "number",
-                        "format": "float",
-                        "description": "Ticket price for children",
-                        "example": 10
-                      },
-                      "senior": {
-                        "type": "number",
-                        "format": "float",
-                        "description": "Ticket price for seniors",
-                        "example": 15
-                      }
-                    }
+                  "senior": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Ticket price for seniors",
+                    "example": 15
                   }
                 }
               }
             }
           }
-        } ,
-        "apiArtifacts": {
-            "apiImages": {
-                "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions-mini.jpeg"
-            }
         }
-
+      }
     },
-    "serverUrl": {
-        "sandboxUrl": "https://attractions.api.sandbox.abc.com",
-        "productionUrl": "https://attractions.api.abc.com"
+    "apiArtifacts": {
+      "apiImages": {
+        "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/frame.png",
+        "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+      }
     }
+  },
+  "serverUrl": {
+    "sandboxUrl": "https://attractions.api.sandbox.abc.com",
+    "productionUrl": "https://attractions.api.abc.com"
+  }
 }

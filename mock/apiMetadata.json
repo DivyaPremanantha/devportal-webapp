@@ -1,13 +1,12 @@
 [
     {
         "apiInfo": {
-            "apiName": "Payment Initiation (PSD2)",
-            "apiCategory": "Payments",
+            "apiName": "AccommodationAPI",
+            "apiCategory": "Travel",
             "tags": [
-                "Payment",
-                "Trending",
-                "Rest",
-                "+4"
+                "leisure",
+                "activities",
+                "reservations"
             ],
             "authenticate": true,
             "openApiDefinition": {
