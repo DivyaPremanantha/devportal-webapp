@@ -14,7 +14,7 @@
     "openApiDefinition": {
       "openapi": "3.0.1",
       "info": {
-        "title": "Accommodation API (PSD2)",
+        "title": "Accommodation API",
         "description": "API for managing accommodations and reservations in a specified city",
         "version": "1.0.0"
       },
