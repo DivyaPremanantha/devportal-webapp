@@ -136,6 +136,7 @@ router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) =
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
+        layoutContent = layoutContent.replaceAll("component/", "");
         // const markdownResponse = await fetch(url + "&fileName=home.md");
         // const markdownContent = await markdownResponse.text();
         // const markdownHtml = markdownContent ? markdown.render(markdownContent) : '';
@@ -162,16 +163,11 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
     const layoutResponse = await fetch(orgFilesUrl + "&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
     layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+    layoutContent = layoutContent.replaceAll("component/", "");
 
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
-
-    metaData.forEach(element => {
-        const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
-        const modifiedApiImageURL = element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'].replace("/images/", apiImageUrl + "&fileName=");
-        element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'] = modifiedApiImageURL;
-    });
-
+    
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
@@ -196,6 +192,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
     const layoutResponse = await fetch(orgFilesUrl + "&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
     layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+    layoutContent = layoutContent.replaceAll("component/", "");
 
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
@@ -244,6 +241,7 @@ router.get('/((?!favicon.ico):orgName/*)', ensureAuthenticated, async (req, res)
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
+        layoutContent = layoutContent.replaceAll("component/", "");
         const markdownResponse = await fetch(url + "&fileName=" + markdonwFile);
         const markdownContent = await markdownResponse.text();
         const template = Handlebars.compile(templateContent.toString());
