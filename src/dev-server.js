@@ -32,6 +32,8 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, filePrefix + 'views'));
 
 app.use(express.static(path.join(__dirname, filePrefix + '../public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
 
 app.use(session({
