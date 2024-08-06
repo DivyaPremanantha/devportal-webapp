@@ -54,7 +54,7 @@ if (authJson.clientSecret) {
         clientID: authJson.clientID,
         clientSecret: authJson.clientSecret,
         callbackURL: authJson.callbackURL,
-        scope: authJson.scope.split(" "),
+        scope: authJson.scope,
     }, (issuer, sub, profile, accessToken, refreshToken, done) => {
         // Here you can handle the user's profile and tokens
         return done(null, profile);
@@ -137,9 +137,14 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8'));
     const filePath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiContent.hbs');
 
-    hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
+    if (fs.existsSync(filePath)) {
+        console.log('File exists');
+        hbs.handlebars
+        hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
+    }
 
     res.render('apiDetailTemplate', {
+        content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
         apiMetadata: mockAPIData,
         authJson: authJson
     });
