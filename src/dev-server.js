@@ -87,7 +87,12 @@ const loadMarkdown = (filename, dirName) => {
 // Route to start the authentication process
 
 app.get('/login', (req, res, next) => {
-    next();
+    if (authJson.clientSecret) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+    
 }, passport.authenticate('openidconnect'));
 
 // Route for the callback
@@ -124,7 +129,8 @@ app.get('/', ensureAuthenticated, (req, res) => {
 
     res.render('home', {
         userProfiles: mockProfileData,
-        authJson: authJson
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
     });
 });
 
@@ -144,7 +150,8 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     res.render('apiDetailTemplate', {
         content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
         apiMetadata: mockAPIData,
-        authJson: authJson
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
     });
 
 });
@@ -157,7 +164,8 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
 
     res.render('apis', {
         apiMetadata: mockAPIMetaData,
-        authJson: authJson
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
     });
 
 });
@@ -170,7 +178,8 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 
     res.render('tryout', {
         apiMetadata: JSON.stringify(mockAPIData),
-        authJson: authJson
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
     });
 
 });
@@ -180,7 +189,8 @@ app.get('*', ensureAuthenticated, (req, res) => {
 
     res.render(req.params[0].substring(1), {
         content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content'),
-        authJson: authJson
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
     });
 
 });

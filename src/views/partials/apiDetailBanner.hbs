@@ -10,22 +10,16 @@
       </div>
       <div class="api-title">
         <h4>{{apiMetadata.apiInfo.openApiDefinition.info.title}}</h4>
-        <span
-          class="badge api-badge-custom1"
-        >{{apiMetadata.apiInfo.apiCategory}}</span>
+        <span class="badge api-badge-custom1">{{apiMetadata.apiInfo.apiCategory}}</span>
       </div>
       <p class="api-desciption">{{apiMetadata.apiInfo.openApiDefinition.info.description}}</p>
       <div class="api-tags">
         {{#apiMetadata.apiInfo.tags}}
-          <span class="badge api-badge-custom2">{{this}}</span>
+        <span class="badge api-badge-custom2">{{this}}</span>
         {{/apiMetadata.apiInfo.tags}}
       </div>
       <div class="api-details-btn ">
-        <a
-          type="button"
-          class="common-btn-primary"
-          href="{{apiMetadata.apiInfo.apiName}}/tryout"
-        >Try Out</a>
+        <a type="button" class="common-btn-primary" href="{{baseUrl}}/api/{{apiMetadata.apiInfo.apiName}}/tryout">Try Out</a>
         <a type="button" class="common-btn-secondary">Documentation</a>
       </div>
     </div>
