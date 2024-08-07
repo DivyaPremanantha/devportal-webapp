@@ -5,10 +5,12 @@ const fs = require('fs');
 const marked = require('marked');
 const session = require('express-session');
 const passport = require('passport');
-const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
+const OAuth2Strategy = require('passport-oauth2').Strategy;
 const minimatch = require('minimatch');
 const exphbs = require('express-handlebars');
+const crypto = require('crypto');
 
+const secret = crypto.randomBytes(64).toString('hex');
 const app = express();
 
 const filePath = path.join(__dirname, '../../../node_modules');
@@ -35,25 +37,23 @@ app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 
 
 app.use(session({
-    secret: authJson.clientSecret ? authJson.clientSecret : ' ',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-
 // Configure the OpenID Connect strategy
-if (authJson.clientSecret) {
-    passport.use(new OpenIDConnectStrategy({
+if (authJson.clientID) {
+    passport.use(new OAuth2Strategy({
         issuer: authJson.issuer,
         authorizationURL: authJson.authorizationURL,
         tokenURL: authJson.tokenURL,
         userInfoURL: authJson.userInfoURL,
         clientID: authJson.clientID,
-        clientSecret: authJson.clientSecret,
         callbackURL: authJson.callbackURL,
         scope: authJson.scope,
-    }, (issuer, sub, profile, accessToken, refreshToken, done) => {
+    }, (accessToken, refreshToken, profile, done) => {
         // Here you can handle the user's profile and tokens
         return done(null, profile);
     }));
@@ -87,18 +87,18 @@ const loadMarkdown = (filename, dirName) => {
 // Route to start the authentication process
 
 app.get('/login', (req, res, next) => {
-    if (authJson.clientSecret) {
+    if (authJson.clientID) {
         next();
     } else {
         res.redirect('/');
     }
-    
-}, passport.authenticate('openidconnect'));
+
+}, passport.authenticate('oauth2'));
 
 // Route for the callback
 app.get('/callback', (req, res, next) => {
     next();
-}, passport.authenticate('openidconnect', {
+}, passport.authenticate('oauth2', {
     failureRedirect: '/login',
     keepSessionInfo: true
 }), (req, res) => {
