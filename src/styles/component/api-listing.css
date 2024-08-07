@@ -3,25 +3,26 @@ body {
 }
 
 .apilist-container {
-  padding: 10px 50px;
+  padding: 10px 75px;
   margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 .api-filterlist {
   color: var(--main-text-color);
-  padding: 10px 0px 10px 10px;
+  margin-top: 15px;
+}
+
+.api-filter-content {
+  margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 .filter-header {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 15px;
   color: var(--main-text-color);
-}
-
-.list-items {
-  margin-bottom: 10px;
-  margin-left: 3px;
 }
 
 .bi-chevron-down {
@@ -50,7 +51,7 @@ hr {
   margin-left: 5px;
 }
 
-.api-card  {
+.api-card {
   max-width: 300px;
   text-align: left;
 }
@@ -77,14 +78,16 @@ hr {
 }
 
 .api-card p {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--main-text-color);
   margin: 0;
+  line-height: 1.5;
 }
 
-.api-tags{
+.api-tags {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .badge-custom1 {
@@ -122,7 +125,7 @@ hr {
   background-color: var(--primary-color);
   color: var(--font-colour-primary);
 }
- 
+
 .apilistbtn-secondary {
   background-color: transparent;
   color: var(--border-colour-primary);
