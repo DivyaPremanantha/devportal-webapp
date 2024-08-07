@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const markdown = require('marked');
 const Handlebars = require('handlebars');
 var config = require('../config');
 const session = require('express-session');
@@ -81,9 +82,6 @@ app.get('/((?!favicon.ico)):orgName/callback', (req, res, next) => {
 // Middleware to check authentication
 const ensureAuthenticated = async (req, res, next) => {
 
-    console.log("authen");
-    console.log(req.params.orgName)
-
     const orgDetailsResponse = await fetch(config.adminAPI + "organisation?orgName=" + req.params.orgName);
     var orgDetails = await orgDetailsResponse.json();
 
@@ -96,7 +94,7 @@ const ensureAuthenticated = async (req, res, next) => {
                 req.session.returnTo = req.originalUrl || '/' + req.params.orgName;
                 res.redirect("/" + req.params.orgName + '/login');
             }
-        } else{
+        } else {
             return next();
         }
     } else {
@@ -109,7 +107,9 @@ const ensureAuthenticated = async (req, res, next) => {
 app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
 
     const orgName = req.originalUrl.split("/")[1];
+    const apiName = req.originalUrl.split("/").pop();
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
+    const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + orgName + "&apiID=" + apiName;
     const imageUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
     //attach partials
     const partialsResponse = await fetch(url);
@@ -122,6 +122,14 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
         partialObject[fileName] = content;
     });
 
+    const markdownResponse = await fetch(apiContetnUrl + "&fileName=content.md");
+    const markdownContent = await markdownResponse.text();
+    const markdownHtml = markdownContent ? markdown.parse(markdownContent) : '';
+
+    const additionalAPIContentResponse = await fetch(apiContetnUrl + "&fileName=apiContent.hbs");
+    const additionalAPIContent = await additionalAPIContentResponse.text();
+    partialObject["apiContent"] = additionalAPIContent;
+
     const hbs = exphbs.create({});
     hbs.handlebars.partials = partialObject;
 
@@ -131,8 +139,11 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
 
     hbs.handlebars.partials = {
         ...hbs.handlebars.partials,
-        header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
+        header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] }),
+        apiContent: hbs.handlebars.compile(partialObject['apiContent'])({ content: markdownHtml })
     };
+
+    console.log(hbs.handlebars.partials.apiContent)
 
     next();
 });
@@ -148,12 +159,9 @@ router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) =
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
         layoutContent = layoutContent.replaceAll("component/", "");
-        // const markdownResponse = await fetch(url + "&fileName=home.md");
-        // const markdownContent = await markdownResponse.text();
-        // const markdownHtml = markdownContent ? markdown.render(markdownContent) : '';
+
         const template = Handlebars.compile(templateContent.toString());
         const layout = Handlebars.compile(layoutContent.toString());
-
         const html = layout({
             body: template
         });
@@ -181,10 +189,10 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
 
     metaData.forEach(element => {
         const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
-        const modifiedApiImageURL = element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'].replace("/images/", apiImageUrl + "&fileName=");
+        const modifiedApiImageURL = apiImageUrl + "&fileName=" + element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'];
         element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'] = modifiedApiImageURL;
     });
-    
+
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
@@ -219,7 +227,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
     for (var key in images) {
         const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
-        const modifiedApiImageURL = images[key].replace("/images/", apiImageUrl + "&fileName=");
+        const modifiedApiImageURL = apiImageUrl + "&fileName=" + images[key]
         images[key] = modifiedApiImageURL;
     }
     const template = Handlebars.compile(templateContent.toString());
@@ -227,10 +235,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
     var contentResponse = await fetch(apiContetnUrl + "&fileName=apiContent.hbs");
     contentResponse = await contentResponse.text();
-
-    // partialObject = {}
-    const hbs = exphbs.create({});
-    hbs.handlebars.registerPartial('apiContent', contentResponse);
 
     var html = layout({
         body: template({
@@ -254,7 +258,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
 
 router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (req, res) => {
 
-    console.log("images called=================")
     const orgName = req.params.orgName;
     const filePath = req.originalUrl.split(orgName)[1];
     const markdonwFile = req.params[0].split("/").pop() + ".md";
@@ -274,7 +277,7 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
         const layout = Handlebars.compile(layoutContent.toString());
 
         const html = layout({
-            body: template(md),
+            body: template(markdown.parse(markdownContent)),
         });
         res.send(html);
     } catch (err) {
