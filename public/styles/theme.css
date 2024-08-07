@@ -131,3 +131,46 @@
   padding: 20px;
   margin: 10px;
 }
+
+/* common-md-file-style */
+.api-md-content {
+  padding: 40px 80px;
+  background-color: var(--main-bg-color);
+  line-height: 1.8;
+}
+
+/* --Title-- */
+.api-md-content h1 {
+  font-size: 30px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
+
+.api-md-content h3,h2 {
+  font-size: 25px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
+
+/* --SubTitle-- */
+.api-md-content h4,h5,h6 {
+  font-size: 20px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
+
+/* --Paragraph-- */
+.api-md-content p {
+  font-size: 15px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
+
+.api-md-content li {
+  font-size: 15px;
+  color: var(--main-text-color);
+}
+
+.api-md-content li::marker {
+  color: var(--primary-color);
+}
