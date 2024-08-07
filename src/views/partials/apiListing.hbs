@@ -1,9 +1,9 @@
 <section>
-  <div class="container-fluid apilist-container">
+  <div class="container-fluid col-lg-12 apilist-container">
     <div class="row list-items">
       <div class="col-lg-2 api-filterlist">
         <h6 class="filter-header">Filter By</h6>
-        <div class="row list-items">
+        <div class="row list-items api-filter-content">
           <div class="col-lg filter-sub"> Explore </div>
           <div class="col-lg" id="exploreFilter" data-bs-toggle="collapse" data-bs-target="#collapseExplore"
             aria-expanded="false" aria-controls="collapseExample">
@@ -19,8 +19,7 @@
           <div class="collapse" id="collapseExplore">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              <label class="form-check-label" for="flexCheckDefault">Recently
-                Added</label>
+              <label class="form-check-label" for="flexCheckDefault">Recently Added</label>
             </div>
           </div>
           <div class="collapse" id="collapseExplore">
@@ -30,7 +29,7 @@
             </div>
           </div>
         </div>
-        <div class="row list-items">
+        <div class="row list-items api-filter-content">
           <div class="col-lg filter-sub"> Category </div>
           <div class="col-lg" id="categoryFilter" data-bs-toggle="collapse" data-bs-target="#collapseCategory"
             aria-expanded="false" aria-controls="collapseExample">
@@ -79,7 +78,7 @@
                   <div class="apibtn-container">
                     <div class="row">
                       <div class="col-5 text-left">
-                        <a type="button" class="btn apilistbtn-primary" href="/api/{{apiInfo.apiName}}">Overview</a>
+                        <a type="button" class="btn apilistbtn-primary" href="{{baseUrl}}/api/{{apiInfo.apiName}}">Overview</a>
                       </div>
                       <div class="col-3 text-right">
                         <a type="button" class="btn apilistbtn-secondary">Documentation</a>

@@ -40,11 +40,8 @@ passport.deserializeUser((user, done) => {
 
 // Route to start the authentication process
 app.get('/((?!favicon.ico)):orgName/login', async (req, res, next) => {
-    console.log("Bingo");
     const authJsonResponse = await fetch(config.adminAPI + "identityProvider?orgName=" + req.params.orgName);
     var authJsonContent = await authJsonResponse.json();
-
-    console.log(authJsonContent[0]);
 
     if (authJsonContent[0].clientSecret !== "") {
         passport.use(new OpenIDConnectStrategy({
@@ -75,7 +72,6 @@ app.get('/((?!favicon.ico)):orgName/callback', (req, res, next) => {
     const returnTo = req.session.returnTo || '/' + req.params.orgName;
     // Clear the returnTo variable from the session
     delete req.session.returnTo;
-    console.log(returnTo);
     res.redirect(returnTo);
 });
 
@@ -198,7 +194,8 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
 
     var html = layout({
         body: template({
-            apiMetadata: metaData
+            apiMetadata: metaData,
+            baseUrl: req.params.orgName,
         }),
     });
     res.send(html);
@@ -238,7 +235,8 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
     var html = layout({
         body: template({
-            apiMetadata: metaData
+            apiMetadata: metaData,
+            baseUrl: '/' + req.params.orgName,
         }),
     });
     res.send(html);
@@ -251,7 +249,8 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
     const metaData = await metadataResponse.text();
 
     res.render('tryout', {
-        apiMetadata: metaData
+        apiMetadata: metaData,
+        orgName: req.params.orgName,
     });
 
 });
