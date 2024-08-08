@@ -33,18 +33,8 @@ app.engine('.hbs', engine({
     extname: '.hbs'
 }));
 app.set('view engine', 'hbs');
-// app.set('views', [
-//     path.join(__dirname, filePrefix + 'pages/layouts'),
-
-//     // path.join(__dirname, filePrefix + 'pages/apiLandingPage'),
-//     // path.join(__dirname, filePrefix + 'pages/apis'),
-//     path.join(__dirname, filePrefix + 'pages/home'),
-//     path.join(__dirname, filePrefix + 'partials')
-// ]);
-
 app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
 
 app.use(session({
@@ -69,6 +59,53 @@ if (authJson.clientID) {
         return done(null, profile);
     }));
 }
+const copyStyelSheet = () => {
+
+    if (!fs.existsSync(path.join(__dirname, 'styles'))) {
+        fs.mkdirSync(path.join(__dirname, 'styles'));
+
+    }
+    var styleDir = [];
+    searchFile(path.join(__dirname, 'pages'), ".css", styleDir);
+}
+
+function searchFile(dir, fileName, styleDir) {
+    // read the contents of the directory
+    fs.readdir(dir, (err, files) => {
+        if (err) throw err;
+
+        // search through the files
+        for (const file of files) {
+            // build the full path of the file
+            const filePath = path.join(dir, file);
+
+            // get the file stats
+            fs.stat(filePath, (err, fileStat) => {
+                if (err) throw err;
+
+                // if the file is a directory, recursively search the directory
+                if (fileStat.isDirectory()) {
+                    searchFile(filePath, fileName, styleDir);
+                } else if (file.endsWith(fileName)) {
+                    // if the file is a match, print it
+                    if (!fs.existsSync(path.join(__dirname, filePrefix + 'styles/' + path.basename(filePath)))) {
+                        fs.copyFile(filePath, path.join(__dirname, filePrefix + 'styles/' + path.basename(filePath)),
+                            fs.constants.COPYFILE_EXCL, (err) => {
+                                if (err) {
+                                    console.log("Error Found:", err);
+                                }
+                            });
+                    }
+                }
+            });
+        }
+    });
+
+    return styleDir;
+}
+
+copyStyelSheet();
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -103,10 +140,31 @@ const registerPartials = (dir) => {
             return;
         }
         const name = matches[1];
+        if(!name.endsWith('.css')) {
         const template = fs.readFileSync(path.join(dir, filename), 'utf8');
         hbs.handlebars.registerPartial(name, template);
+        }
     });
 };
+
+const renderTemplate = (templateName, layoutName, templateContent) => {
+
+    const templatePath = path.join(__dirname, filePrefix + templateName);
+    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+
+    const layoutPath = path.join(__dirname, filePrefix + layoutName);
+    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+
+    const html = layout({
+        body: template(templateContent)
+    });
+    return html;
+}
+
+
 
 // Route to start the authentication process
 
@@ -155,23 +213,12 @@ app.get('/', ensureAuthenticated, (req, res) => {
     registerPartials(path.join(__dirname, 'pages', 'home', 'partials'));
     registerPartials(path.join(__dirname, 'partials'));
 
-    var filePath = path.join(__dirname, filePrefix + 'pages/home/home.hbs');
-    const templateResponse = fs.readFileSync(filePath, 'utf-8')
-
-    filePath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
-    const layoutResponse = fs.readFileSync(filePath, 'utf-8')
-
-
-    const template = Handlebars.compile(templateResponse.toString());
-    const layout = Handlebars.compile(layoutResponse.toString());
-    const html = layout({
-        body: template({
-            userProfiles: mockProfileData,
-            authJson: authJson,
-            baseUrl: "http://localhost:3000",
-        })
-    });
-
+    var templateContent = {
+        userProfiles: mockProfileData,
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
+    };
+    const html = renderTemplate('pages/home/page.hbs', 'layouts/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -183,31 +230,19 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const filePath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiContent.hbs');
 
     if (fs.existsSync(filePath)) {
-        hbs.handlebars
         hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
     }
     registerPartials(path.join(__dirname, 'pages', 'apiLandingPage', 'partials'));
     registerPartials(path.join(__dirname, 'partials'));
 
-    const templatePath = path.join(__dirname, filePrefix + 'pages/apiLandingPage/apiDetailTemplate.hbs');
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+    var templateContent = {
+        content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
+        apiMetadata: mockAPIData,
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
+    }
 
-    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
-    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
-
-
-    const template = Handlebars.compile(templateResponse.toString());
-    const layout = Handlebars.compile(layoutResponse.toString());
-
-    const html = layout({
-        body: template({
-            content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
-            apiMetadata: mockAPIData,
-            authJson: authJson,
-            baseUrl: "http://localhost:3000",
-        })
-    });
-
+    const html = renderTemplate('pages/apiLandingPage/page.hbs', 'layouts/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -220,21 +255,12 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
     registerPartials(path.join(__dirname, 'pages', 'apis', 'partials'));
     registerPartials(path.join(__dirname, 'partials'));
 
-    const templatePath = path.join(__dirname, filePrefix + 'pages/apis/apis.hbs');
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
-
-    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
-    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
-    const template = Handlebars.compile(templateResponse.toString());
-    const layout = Handlebars.compile(layoutResponse.toString());
-
-    const html = layout({
-        body: template({
-            apiMetadata: mockAPIMetaData,
-            authJson: authJson,
-            baseUrl: "http://localhost:3000",
-        })
-    });
+    var templateContent = {
+        apiMetadata: mockAPIMetaData,
+        authJson: authJson,
+        baseUrl: "http://localhost:3000",
+    }
+    const html = renderTemplate('pages/apis/page.hbs', 'layouts/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -246,32 +272,38 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 
     registerPartials(path.join(__dirname, 'partials'));
 
-    const templatePath = path.join(__dirname, filePrefix + 'pages/tryout/tryout.hbs');
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
-
-    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
-    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
-    const template = Handlebars.compile(templateResponse.toString());
-    const layout = Handlebars.compile(layoutResponse.toString());
-
-    const html = layout({
-        body: template({
-            apiMetadata: JSON.stringify(mockAPIData),
-            authJson: authJson,
-            baseUrl: "http://localhost:3000"
-        })
-    });
+    var templateContent = {
+        apiMetadata: JSON.stringify(mockAPIData),
+        authJson: authJson,
+        baseUrl: "http://localhost:3000"
+    }
+    const html = renderTemplate('pages/tryout/page.hbs', 'layouts/main.hbs', templateContent);
     res.send(html);
 });
 
 // Wildcard Route for other pages
-app.get('*', ensureAuthenticated, (req, res) => {
+app.get('/((?!styles)/*)', ensureAuthenticated, (req, res) => {
 
-    res.render(req.params[0].substring(1), {
-        content: loadMarkdown(req.params[0].split("/").pop() + ".md", 'content'),
-        authJson: authJson,
-        baseUrl: "http://localhost:3000",
+    const filePath = req.originalUrl.split("/").pop();
+
+    //read all files in partials folder
+    registerPartials(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
+    registerPartials(path.join(__dirname, 'partials'));
+
+    //read all markdown content
+    const markdDownFiles = fs.readdirSync(path.join(__dirname, 'pages/' + filePath + '/content'));
+    var templateContent = {};
+
+    templateContent["authJson"] = authJson;
+    templateContent["baseUrl"] = "http://localhost:3000";
+
+    markdDownFiles.forEach((filename) => {
+        const tempKey = filename.split('.md')[0];
+        templateContent[tempKey] = loadMarkdown(filename, 'pages/' + filePath + '/content')
     });
+
+    const html = renderTemplate('pages/' + filePath + '/page.hbs', 'layouts/main.hbs', templateContent)
+    res.send(html);
 
 });
 
