@@ -6,9 +6,11 @@ const Handlebars = require('handlebars');
 var config = require('../config');
 const session = require('express-session');
 const passport = require('passport');
-const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
+const OAuth2Strategy = require('passport-oauth2').Strategy;
 const minimatch = require('minimatch');
+const crypto = require('crypto');
 
+const secret = crypto.randomBytes(64).toString('hex');
 const app = express();
 
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
@@ -20,7 +22,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 
 app.use(session({
-    secret: '123',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -42,30 +44,31 @@ passport.deserializeUser((user, done) => {
 app.get('/((?!favicon.ico)):orgName/login', async (req, res, next) => {
     const authJsonResponse = await fetch(config.adminAPI + "identityProvider?orgName=" + req.params.orgName);
     var authJsonContent = await authJsonResponse.json();
+    console.log(authJsonContent);
 
-    if (authJsonContent[0].clientSecret !== "") {
-        passport.use(new OpenIDConnectStrategy({
+    if (authJsonContent.length > 0) {
+        passport.use(new OAuth2Strategy({
             issuer: authJsonContent[0].issuer,
             authorizationURL: authJsonContent[0].authorizationURL,
             tokenURL: authJsonContent[0].tokenURL,
             userInfoURL: authJsonContent[0].userInfoURL,
             clientID: authJsonContent[0].clientId,
-            clientSecret: authJsonContent[0].clientSecret,
             callbackURL: authJsonContent[0].callbackURL,
             scope: authJsonContent[0].scope ? authJsonContent[0].scope.split(" ") : "",
-        }, (issuer, sub, profile, accessToken, refreshToken, done) => {
+        }, (accessToken, refreshToken, profile, done) => {
             // Here you can handle the user's profile and tokens
             return done(null, profile);
         }));
+        next();
+    } else {
+        res.redirect("/" + req.params.orgName)
     }
-
-    next();
-}, passport.authenticate('openidconnect'));
+}, passport.authenticate('oauth2'));
 
 // Route for the callback
 app.get('/((?!favicon.ico)):orgName/callback', (req, res, next) => {
     next();
-}, passport.authenticate('openidconnect', {
+}, passport.authenticate('oauth2', {
     failureRedirect: '/login',
     keepSessionInfo: true
 }), (req, res) => {
@@ -81,17 +84,13 @@ const ensureAuthenticated = async (req, res, next) => {
     const orgDetailsResponse = await fetch(config.adminAPI + "organisation?orgName=" + req.params.orgName);
     var orgDetails = await orgDetailsResponse.json();
 
-    if (orgDetails.authenticatedPages) {
-        if ((req.originalUrl != '/favicon.ico' | req.originalUrl != '/images') && orgDetails.authenticatedPages.some(pattern => minimatch.minimatch(req.originalUrl, pattern))) {
-            console.log("Authenticated", req.isAuthenticated());
-            if (req.isAuthenticated()) {
-                return next();
-            } else {
-                req.session.returnTo = req.originalUrl || '/' + req.params.orgName;
-                res.redirect("/" + req.params.orgName + '/login');
-            }
-        } else {
+
+    if ((req.originalUrl != '/favicon.ico' | req.originalUrl != '/images') && orgDetails.authenticatedPages != null && orgDetails.authenticatedPages.some(pattern => minimatch.minimatch(req.originalUrl, pattern))) {
+        if (req.isAuthenticated()) {
             return next();
+        } else {
+            req.session.returnTo = req.originalUrl || '/' + req.params.orgName;
+            res.redirect("/" + req.params.orgName + '/login');
         }
     } else {
         return next();
@@ -281,7 +280,6 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
     }
 
 });
-
 
 
 app.use('/', router);
