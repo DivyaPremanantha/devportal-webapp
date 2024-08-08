@@ -8,6 +8,8 @@ const passport = require('passport');
 const OpenIDConnectStrategy = require('passport-openidconnect').Strategy;
 const minimatch = require('minimatch');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
+
 
 const app = express();
 
@@ -29,7 +31,14 @@ app.engine('.hbs', engine({
     extname: '.hbs'
 }));
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, filePrefix + 'views'));
+// app.set('views', [
+//     path.join(__dirname, filePrefix + 'pages/layouts'),
+
+//     // path.join(__dirname, filePrefix + 'pages/apiLandingPage'),
+//     // path.join(__dirname, filePrefix + 'pages/apis'),
+//     path.join(__dirname, filePrefix + 'pages/home'),
+//     path.join(__dirname, filePrefix + 'partials')
+// ]);
 
 app.use(express.static(path.join(__dirname, filePrefix + '../public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -86,6 +95,19 @@ const loadMarkdown = (filename, dirName) => {
     }
 };
 
+const registerPartials = (dir) => {
+    const filenames = fs.readdirSync(dir);
+    filenames.forEach((filename) => {
+        const matches = /^([^.]+).hbs$/.exec(filename);
+        if (!matches) {
+            return;
+        }
+        const name = matches[1];
+        const template = fs.readFileSync(path.join(dir, filename), 'utf8');
+        hbs.handlebars.registerPartial(name, template);
+    });
+};
+
 // Route to start the authentication process
 
 app.get('/login', (req, res, next) => {
@@ -94,7 +116,7 @@ app.get('/login', (req, res, next) => {
     } else {
         res.redirect('/');
     }
-    
+
 }, passport.authenticate('openidconnect'));
 
 // Route for the callback
@@ -126,14 +148,31 @@ const ensureAuthenticated = (req, res, next) => {
 };
 // Home Route
 app.get('/', ensureAuthenticated, (req, res) => {
+
     const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
     const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
 
-    res.render('home', {
-        userProfiles: mockProfileData,
-        authJson: authJson,
-        baseUrl: "http://localhost:3000",
+    registerPartials(path.join(__dirname, 'pages', 'home', 'partials'));
+    registerPartials(path.join(__dirname, 'partials'));
+
+    var filePath = path.join(__dirname, filePrefix + 'pages/home/home.hbs');
+    const templateResponse = fs.readFileSync(filePath, 'utf-8')
+
+    filePath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
+    const layoutResponse = fs.readFileSync(filePath, 'utf-8')
+
+
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+    const html = layout({
+        body: template({
+            userProfiles: mockProfileData,
+            authJson: authJson,
+            baseUrl: "http://localhost:3000",
+        })
     });
+
+    res.send(html);
 });
 
 // API Route
@@ -144,18 +183,32 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const filePath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiContent.hbs');
 
     if (fs.existsSync(filePath)) {
-        console.log('File exists');
         hbs.handlebars
         hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
     }
+    registerPartials(path.join(__dirname, 'pages', 'apiLandingPage', 'partials'));
+    registerPartials(path.join(__dirname, 'partials'));
 
-    res.render('apiDetailTemplate', {
-        content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
-        apiMetadata: mockAPIData,
-        authJson: authJson,
-        baseUrl: "http://localhost:3000",
+    const templatePath = path.join(__dirname, filePrefix + 'pages/apiLandingPage/apiDetailTemplate.hbs');
+    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+
+    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
+    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+
+
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+
+    const html = layout({
+        body: template({
+            content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
+            apiMetadata: mockAPIData,
+            authJson: authJson,
+            baseUrl: "http://localhost:3000",
+        })
     });
 
+    res.send(html);
 });
 
 // APIs Route
@@ -164,12 +217,25 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
     const mockAPIMetaDataPath = path.join(__dirname, filePrefix + '../mock', 'apiMetadata.json');
     const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
 
-    res.render('apis', {
-        apiMetadata: mockAPIMetaData,
-        authJson: authJson,
-        baseUrl: "http://localhost:3000",
-    });
+    registerPartials(path.join(__dirname, 'pages', 'apis', 'partials'));
+    registerPartials(path.join(__dirname, 'partials'));
 
+    const templatePath = path.join(__dirname, filePrefix + 'pages/apis/apis.hbs');
+    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+
+    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
+    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+
+    const html = layout({
+        body: template({
+            apiMetadata: mockAPIMetaData,
+            authJson: authJson,
+            baseUrl: "http://localhost:3000",
+        })
+    });
+    res.send(html);
 });
 
 // Tryout Route
@@ -178,12 +244,24 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
     const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
 
-    res.render('tryout', {
-        apiMetadata: JSON.stringify(mockAPIData),
-        authJson: authJson,
-        baseUrl: "http://localhost:3000",
-    });
+    registerPartials(path.join(__dirname, 'partials'));
 
+    const templatePath = path.join(__dirname, filePrefix + 'pages/tryout/tryout.hbs');
+    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+
+    const layoutPath = path.join(__dirname, filePrefix + 'layouts/main.hbs');
+    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+
+    const html = layout({
+        body: template({
+            apiMetadata: JSON.stringify(mockAPIData),
+            authJson: authJson,
+            baseUrl: "http://localhost:3000"
+        })
+    });
+    res.send(html);
 });
 
 // Wildcard Route for other pages
