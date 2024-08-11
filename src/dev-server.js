@@ -108,6 +108,20 @@ function searchFile(dir, fileName, styleDir) {
 
 copyStyelSheet();
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
+const folderToDelete = path.join(__dirname, 'styles');
+
+process.on('SIGINT', () => {
+    if (fs.existsSync(folderToDelete)) {
+        fs.rmSync(folderToDelete, { recursive: true, force: true });
+    }
+    process.exit();
+});
+
+process.on('exit', () => {
+    if (fs.existsSync(folderToDelete)) {
+        fs.rmSync(folderToDelete, { recursive: true, force: true });
+    }
+});
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -142,9 +156,9 @@ const registerPartials = (dir) => {
             return;
         }
         const name = matches[1];
-        if(!name.endsWith('.css')) {
-        const template = fs.readFileSync(path.join(dir, filename), 'utf8');
-        hbs.handlebars.registerPartial(name, template);
+        if (!name.endsWith('.css')) {
+            const template = fs.readFileSync(path.join(dir, filename), 'utf8');
+            hbs.handlebars.registerPartial(name, template);
         }
     });
 };
@@ -165,8 +179,6 @@ const renderTemplate = (templateName, layoutName, templateContent) => {
     });
     return html;
 }
-
-
 
 // Route to start the authentication process
 
