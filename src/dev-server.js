@@ -66,6 +66,8 @@ const copyStyelSheet = () => {
 
     }
     var styleDir = [];
+    searchFile(path.join(__dirname, 'partials'), ".css", styleDir);
+    searchFile(path.join(__dirname, 'layouts'), ".css", styleDir);
     searchFile(path.join(__dirname, 'pages'), ".css", styleDir);
 }
 
