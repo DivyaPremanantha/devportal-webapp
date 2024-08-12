@@ -224,8 +224,8 @@ app.get('/', ensureAuthenticated, (req, res) => {
     const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
     const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
 
-    registerPartials(path.join(__dirname, 'pages', 'home', 'partials'));
-    registerPartials(path.join(__dirname, 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'pages', 'home', 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         userProfiles: mockProfileData,
@@ -246,8 +246,8 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     if (fs.existsSync(filePath)) {
         hbs.handlebars.registerPartial('api-content', fs.readFileSync(filePath, 'utf-8'));
     }
-    registerPartials(path.join(__dirname, 'pages', 'api-landing', 'partials'));
-    registerPartials(path.join(__dirname, 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'pages', 'api-landing', 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         content: loadMarkdown('content.md', filePrefix + '../mock/' + req.params.apiName),
@@ -266,8 +266,8 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
     const mockAPIMetaDataPath = path.join(__dirname, filePrefix + '../mock', 'apiMetadata.json');
     const mockAPIMetaData = JSON.parse(fs.readFileSync(mockAPIMetaDataPath, 'utf-8'));
 
-    registerPartials(path.join(__dirname, 'pages', 'apis', 'partials'));
-    registerPartials(path.join(__dirname, 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'pages', 'apis', 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         apiMetadata: mockAPIMetaData,
@@ -284,7 +284,7 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
     const mockAPIDataPath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiMetadata.json');
     const mockAPIData = JSON.parse(fs.readFileSync(mockAPIDataPath, 'utf-8')).apiInfo.openApiDefinition;
 
-    registerPartials(path.join(__dirname, 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         apiMetadata: JSON.stringify(mockAPIData),
@@ -296,12 +296,12 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 });
 
 // Wildcard Route for other pages
-app.get('/*', ensureAuthenticated, (req, res) => {
+app.get('(?!styles)\/*', ensureAuthenticated, (req, res) => {
 
     const filePath = req.originalUrl.split("/").pop();
 
     //read all files in partials folder
-    registerPartials(path.join(__dirname, 'partials'));
+    registerPartials(path.join(__dirname, filePrefix, 'partials'));
     if (fs.existsSync(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'))) {
         registerPartials(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
     }
