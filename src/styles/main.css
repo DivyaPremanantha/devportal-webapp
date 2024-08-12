@@ -24,7 +24,6 @@
 
 /* primary button */
 .common-btn-primary {
-  text-decoration: none;
   border: none;
   border-radius: 25px;
   padding: 12px 24px;
@@ -52,7 +51,6 @@
 
 /* secondary button - light Color */
 .common-btn-secondary {
-  text-decoration: none;
   border: 1px solid var(--main-bg-color);
   border-radius: 25px;
   padding: 12px 24px;
@@ -165,7 +163,7 @@
 .api-md-content p {
   font-size: 15px;
   color: var(--main-text-color);
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 .api-md-content li {

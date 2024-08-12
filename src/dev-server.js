@@ -244,9 +244,9 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
     const filePath = path.join(__dirname, filePrefix + '../mock', req.params.apiName + '/apiContent.hbs');
 
     if (fs.existsSync(filePath)) {
-        hbs.handlebars.registerPartial('apiContent', fs.readFileSync(filePath, 'utf-8'));
+        hbs.handlebars.registerPartial('api-content', fs.readFileSync(filePath, 'utf-8'));
     }
-    registerPartials(path.join(__dirname, 'pages', 'apiLandingPage', 'partials'));
+    registerPartials(path.join(__dirname, 'pages', 'api-landing', 'partials'));
     registerPartials(path.join(__dirname, 'partials'));
 
     var templateContent = {
@@ -256,7 +256,7 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
         baseUrl: "http://localhost:3000",
     }
 
-    const html = renderTemplate('pages/apiLandingPage/page.hbs', 'layouts/main.hbs', templateContent)
+    const html = renderTemplate('pages/api-landing/page.hbs', 'layouts/main.hbs', templateContent)
     res.send(html);
 });
 
