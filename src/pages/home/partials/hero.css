@@ -5,8 +5,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 70px 0 5px 0;
+  padding: 50px 0 5px 0;
   background-color: var(--primary-color);
+  height: 1000px;
 }
 
 .container {
@@ -22,6 +23,7 @@ body {
 
 .subtitle {
   padding: 0 40px;
+  margin-bottom: 20px;
 }
 .content h1,
 .content p,
@@ -49,11 +51,11 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+  margin-top: 20px;
 }
 
 .hero-image img {
   width: 100%;
-  max-width: 700px;
   height: auto;
   margin-top: 20px;
 }
