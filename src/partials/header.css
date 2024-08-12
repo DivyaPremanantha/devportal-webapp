@@ -4,14 +4,16 @@
   height: 64px;
 }
 
-.navbar-brand {
+.navbar-logo {
   display: flex;
   align-items: center;
+  margin-right: 5px;
 }
 
-.navbar-brand img {
+.navbar-logo img {
   margin-right: 10px;
-  width: 100px;
+  width: 80px;
+  height: 50px;
 }
 
 .navbar-nav,
