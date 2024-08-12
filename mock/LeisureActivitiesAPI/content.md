@@ -20,19 +20,19 @@ This API can facilitate the following requirements:
 
 
 ### Use this API to initiate:
-- Get Started:
-    - Register for a developer account on our portal to obtain your API key, which will provide you access to our extensive database of leisure activities.
+- **Get Started**:
+    Register for a developer account on our portal to obtain your API key, which will provide you access to our extensive database of leisure activities.
 
-- Integrate with Ease:
-    - Incorporate the API into your application to offer users a wide range of leisure options, including event details, activity descriptions, and booking information. This will allow you to provide tailored recommendations based on user preferences and location.
+- **Integrate with Ease**:
+    Incorporate the API into your application to offer users a wide range of leisure options, including event details, activity descriptions, and booking information. This will allow you to provide tailored recommendations based on user preferences and location.
 
-- Enhance User Experience:
-    - Use the API to feature curated lists of activities, helping users discover new experiences and plan their leisure time effectively. This can include filtering activities by category, location, or date to match users’ interests.
+- **Enhance User Experience**:
+    Use the API to feature curated lists of activities, helping users discover new experiences and plan their leisure time effectively. This can include filtering activities by category, location, or date to match users’ interests.
 
-- Keep Content Fresh:
-    - Regularly update your offerings with the latest data from the API to ensure your users have access to current and accurate information. This helps maintain engagement and encourages repeat visits.
+- **Keep Content Fresh**:
+    Regularly update your offerings with the latest data from the API to ensure your users have access to current and accurate information. This helps maintain engagement and encourages repeat visits.
 
-- Drive Engagement and Growth:
-    - Analyze user interactions with the API to understand preferences and trends. Use these insights to refine your content, tailor marketing efforts, and develop new features that cater to your audience’s needs.
+- **Drive Engagement and Growth**:
+    Analyze user interactions with the API to understand preferences and trends. Use these insights to refine your content, tailor marketing efforts, and develop new features that cater to your audience’s needs.
 
 [Read More](#)
