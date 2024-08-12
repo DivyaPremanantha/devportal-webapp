@@ -296,7 +296,7 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 });
 
 // Wildcard Route for other pages
-app.get('/*', ensureAuthenticated, (req, res) => {
+app.get('/((?!favicon.ico|styles)/*)', ensureAuthenticated, (req, res) => {
 
     const filePath = req.originalUrl.split("/").pop();
 
