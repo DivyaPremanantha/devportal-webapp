@@ -67,7 +67,7 @@ const copyStyelSheet = () => {
     }
     var styleDir = [];
     searchFile(path.join(__dirname, 'partials'), ".css", styleDir);
-    searchFile(path.join(__dirname, 'layouts'), ".css", styleDir);
+    searchFile(path.join(__dirname, 'layout'), ".css", styleDir);
     searchFile(path.join(__dirname, 'pages'), ".css", styleDir);
 }
 
@@ -232,7 +232,7 @@ app.get('/', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000",
     };
-    const html = renderTemplate('pages/home/page.hbs', 'layouts/main.hbs', templateContent)
+    const html = renderTemplate('pages/home/page.hbs', 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -256,7 +256,7 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
         baseUrl: "http://localhost:3000",
     }
 
-    const html = renderTemplate('pages/api-landing/page.hbs', 'layouts/main.hbs', templateContent)
+    const html = renderTemplate('pages/api-landing/page.hbs', 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -274,7 +274,7 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000",
     }
-    const html = renderTemplate('pages/apis/page.hbs', 'layouts/main.hbs', templateContent);
+    const html = renderTemplate('pages/apis/page.hbs', 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -291,7 +291,7 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000"
     }
-    const html = renderTemplate('pages/tryout/page.hbs', 'layouts/main.hbs', templateContent);
+    const html = renderTemplate('pages/tryout/page.hbs', 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
