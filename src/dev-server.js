@@ -165,7 +165,7 @@ const registerPartials = (dir) => {
 
 const renderTemplate = (templateName, layoutName, templateContent) => {
 
-    const templatePath = path.join(__dirname, filePrefix + templateName);    
+    const templatePath = path.join(__dirname, filePrefix + templateName);
     const templateResponse = fs.readFileSync(templatePath, 'utf-8')
 
     const layoutPath = path.join(__dirname, filePrefix + layoutName);
@@ -296,27 +296,30 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 });
 
 // Wildcard Route for other pages
-app.get('/((?!favicon.ico|styles)/*)', ensureAuthenticated, (req, res) => {
+app.get('/*', ensureAuthenticated, (req, res) => {
 
     const filePath = req.originalUrl.split("/").pop();
 
     //read all files in partials folder
-    registerPartials(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
     registerPartials(path.join(__dirname, 'partials'));
+    if (fs.existsSync(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'))) {
+        registerPartials(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
+    }
 
-    //read all markdown content
-    const markdDownFiles = fs.readdirSync(path.join(__dirname, 'pages/' + filePath + '/content'));
     var templateContent = {};
-
     templateContent["authJson"] = authJson;
     templateContent["baseUrl"] = "http://localhost:3000";
 
-    markdDownFiles.forEach((filename) => {
-        const tempKey = filename.split('.md')[0];
-        templateContent[tempKey] = loadMarkdown(filename, 'pages/' + filePath + '/content')
-    });
+    //read all markdown content
+    if (fs.existsSync(path.join(__dirname, filePrefix + 'pages', filePath, 'content'))) {
+        const markdDownFiles = fs.readdirSync(path.join(__dirname, 'pages/' + filePath + '/content'));
+        markdDownFiles.forEach((filename) => {
+            const tempKey = filename.split('.md')[0];
+            templateContent[tempKey] = loadMarkdown(filename, 'pages/' + filePath + '/content')
+        });
+    }
 
-    const html = renderTemplate('pages/' + filePath + '/page.hbs', 'layouts/main.hbs', templateContent)
+    const html = renderTemplate('pages/' + filePath + '/page.hbs', 'layout/main.hbs', templateContent)
     res.send(html);
 
 });
