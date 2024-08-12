@@ -61,8 +61,8 @@ if (authJson.clientID) {
 }
 const copyStyelSheet = () => {
 
-    if (!fs.existsSync(path.join(__dirname, 'styles'))) {
-        fs.mkdirSync(path.join(__dirname, 'styles'));
+    if (!fs.existsSync(path.join(__dirname, filePrefix + 'styles'))) {
+        fs.mkdirSync(path.join(__dirname, filePrefix + 'styles'));
 
     }
     var styleDir = [];
@@ -107,8 +107,8 @@ function searchFile(dir, fileName, styleDir) {
 }
 
 copyStyelSheet();
-app.use('/styles', express.static(path.join(__dirname, 'styles')));
-const folderToDelete = path.join(__dirname, 'styles');
+app.use('/styles', express.static(path.join(__dirname, filePrefix + '/styles')));
+const folderToDelete = path.join(__dirname, filePrefix + '/styles');
 
 process.on('SIGINT', () => {
     if (fs.existsSync(folderToDelete)) {
@@ -139,7 +139,7 @@ passport.deserializeUser((user, done) => {
 
 // Function to load and convert markdown file to HTML
 const loadMarkdown = (filename, dirName) => {
-    const filePath = path.join(__dirname, filePrefix + dirName, filename);
+    const filePath = path.join(__dirname, dirName, filename);
     if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         return marked.parse(fileContent);
