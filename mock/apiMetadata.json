@@ -36,7 +36,7 @@
             "openApiDefinition": {
                 "info": {
                     "title": "Leisure Activities API",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "description": "API for retrieving information about leisure activities and managing reservations",
                     "version": "1.0.0"
                 }
             },
@@ -60,7 +60,7 @@
             "openApiDefinition": {
                 "info": {
                     "title": "Famous Attractions API",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "description": "API for retrieving information about famous attractions in various cities",
                     "version": "1.0.0"
                 }
             },
@@ -84,7 +84,7 @@
             "openApiDefinition": {
                 "info": {
                     "title": "Hotel Availability API",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "description": "API for checking hotel availability and managing hotel reservations in a specified city",
                     "version": "1.0.0"
                 }
             },
@@ -105,6 +105,7 @@
                 "activities",
                 "reservations"
             ],
+            "authenticate": true,
             "openApiDefinition": {
                 "info": {
                     "title": "Accommodation API",
@@ -112,10 +113,9 @@
                     "version": "1.0.0"
                 }
             },
-            "authenticate": true,
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation.jpeg",
+                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg",
                     "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
@@ -133,7 +133,7 @@
             "openApiDefinition": {
                 "info": {
                     "title": "Leisure Activities API",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "description": "API for retrieving information about leisure activities and managing reservations",
                     "version": "1.0.0"
                 }
             },
@@ -157,7 +157,7 @@
             "openApiDefinition": {
                 "info": {
                     "title": "Famous Attractions API",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "description": "API for retrieving information about famous attractions in various cities",
                     "version": "1.0.0"
                 }
             },
@@ -180,8 +180,8 @@
             ],
             "openApiDefinition": {
                 "info": {
-                    "title": "HotelAvailabilityAPI",
-                    "description": "API for managing accommodations and reservations in a specified city",
+                    "title": "Hotel Availability API",
+                    "description": "API for checking hotel availability and managing hotel reservations in a specified city",
                     "version": "1.0.0"
                 }
             },
@@ -193,4 +193,5 @@
             }
         }
     }
+   
 ]
