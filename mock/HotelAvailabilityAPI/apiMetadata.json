@@ -1,38 +1,34 @@
 {
   "apiInfo": {
-    "apiName": "AccommodationAPI",
-    "apiCategory": "Transportation",
+    "apiName": "HotelAvailabilityAPI",
+    "apiCategory": "Travel",
     "tags": [
-      "Payment",
-      "Trending",
-      "REST",
-      "Recently Added",
-      "Status",
-      "Transaction",
-      "PSD2"
+      "leisure",
+      "activities",
+      "reservations"
     ],
     "openApiDefinition": {
       "openapi": "3.0.1",
       "info": {
-        "title": "Accommodation API (PSD2)",
-        "description": "API for managing accommodations and reservations in a specified city",
+        "title": "Hotel Availability API",
+        "description": "API for checking hotel availability and managing hotel reservations in a specified city",
         "version": "1.0.0"
       },
       "servers": [
         {
-          "url": "https://stoplight.io/mocks/devportalmock/accommodationapi/413740907",
+          "url": "https://stoplight.io/mocks/hotelavailability/hotelavailability/542417",
           "description": "Main (production) server"
         },
         {
-          "url": "https://stoplight.io/mocks/devportalmock/accommodationapi/413740907",
+          "url": "https://stoplight.io/mocks/hotelavailability/hotelavailability/542417",
           "description": "Staging server"
         }
       ],
       "paths": {
-        "/accommodations": {
+        "/hotels": {
           "get": {
-            "summary": "Get a list of available accommodations",
-            "description": "Retrieve a list of available accommodations in the specified city based on search criteria",
+            "summary": "Get a list of available hotels",
+            "description": "Retrieve a list of available hotels in the specified city based on search criteria",
             "parameters": [
               {
                 "in": "query",
@@ -41,8 +37,8 @@
                   "type": "string"
                 },
                 "required": true,
-                "description": "The name of the city to search accommodations in",
-                "example": "Paris"
+                "description": "The name of the city to search hotels in",
+                "example": "New York"
               },
               {
                 "in": "query",
@@ -52,8 +48,8 @@
                   "format": "date"
                 },
                 "required": true,
-                "description": "The check-in date for the accommodation stay",
-                "example": "2024-08-01"
+                "description": "The check-in date for the hotel stay",
+                "example": "2024-07-01"
               },
               {
                 "in": "query",
@@ -63,8 +59,8 @@
                   "format": "date"
                 },
                 "required": true,
-                "description": "The check-out date for the accommodation stay",
-                "example": "2024-08-10"
+                "description": "The check-out date for the hotel stay",
+                "example": "2024-07-10"
               },
               {
                 "in": "query",
@@ -73,7 +69,7 @@
                   "type": "integer"
                 },
                 "required": true,
-                "description": "The number of guests for the accommodation stay",
+                "description": "The number of guests for the hotel stay",
                 "example": 2
               },
               {
@@ -84,7 +80,7 @@
                   "format": "float"
                 },
                 "description": "Minimum price per night",
-                "example": 50
+                "example": 100
               },
               {
                 "in": "query",
@@ -94,7 +90,7 @@
                   "format": "float"
                 },
                 "description": "Maximum price per night",
-                "example": 300
+                "example": 500
               },
               {
                 "in": "query",
@@ -103,19 +99,19 @@
                   "type": "number",
                   "format": "float"
                 },
-                "description": "Minimum rating of the accommodation",
+                "description": "Minimum rating of the hotel",
                 "example": 4
               }
             ],
             "responses": {
               "200": {
-                "description": "A list of available accommodations",
+                "description": "A list of available hotels",
                 "content": {
                   "application/json": {
                     "schema": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Accommodation"
+                        "$ref": "#/components/schemas/Hotel"
                       }
                     }
                   }
@@ -130,10 +126,10 @@
             }
           }
         },
-        "/accommodations/{id}": {
+        "/hotels/{id}": {
           "get": {
-            "summary": "Get details of a specific accommodation",
-            "description": "Retrieve detailed information about a specific accommodation",
+            "summary": "Get details of a specific hotel",
+            "description": "Retrieve detailed information about a specific hotel",
             "parameters": [
               {
                 "in": "path",
@@ -142,23 +138,23 @@
                   "type": "string"
                 },
                 "required": true,
-                "description": "The ID of the accommodation",
-                "example": "acc123"
+                "description": "The ID of the hotel",
+                "example": "hotel123"
               }
             ],
             "responses": {
               "200": {
-                "description": "Accommodation details",
+                "description": "Hotel details",
                 "content": {
                   "application/json": {
                     "schema": {
-                      "$ref": "#/components/schemas/Accommodation"
+                      "$ref": "#/components/schemas/Hotel"
                     }
                   }
                 }
               },
               "404": {
-                "description": "Accommodation not found"
+                "description": "Hotel not found"
               },
               "500": {
                 "description": "Server error"
@@ -168,8 +164,8 @@
         },
         "/reservations": {
           "post": {
-            "summary": "Create a new accommodation reservation",
-            "description": "Make a reservation for an accommodation",
+            "summary": "Create a new hotel reservation",
+            "description": "Make a reservation at a hotel",
             "requestBody": {
               "required": true,
               "content": {
@@ -180,12 +176,12 @@
                       "example-1": {
                         "summary": "Standard reservation",
                         "value": {
-                          "accommodation_id": "acc123",
-                          "guest_name": "Jane Smith",
-                          "check_in_date": "2024-08-01",
-                          "check_out_date": "2024-08-10",
+                          "hotel_id": "hotel123",
+                          "guest_name": "John Doe",
+                          "check_in_date": "2024-07-01",
+                          "check_out_date": "2024-07-10",
                           "number_of_guests": 2,
-                          "special_requests": "Late check-in"
+                          "special_requests": "High floor room"
                         }
                       }
                     }
@@ -226,7 +222,7 @@
                 },
                 "required": true,
                 "description": "The ID of the reservation",
-                "example": "res123"
+                "example": "resv123"
               }
             ],
             "responses": {
@@ -260,7 +256,7 @@
                 },
                 "required": true,
                 "description": "The ID of the reservation",
-                "example": "res123"
+                "example": "resv123"
               }
             ],
             "requestBody": {
@@ -273,12 +269,12 @@
                       "example-1": {
                         "summary": "Update reservation",
                         "value": {
-                          "accommodation_id": "acc123",
-                          "guest_name": "Jane Smith",
-                          "check_in_date": "2024-08-01",
-                          "check_out_date": "2024-08-10",
+                          "hotel_id": "hotel123",
+                          "guest_name": "John Doe",
+                          "check_in_date": "2024-07-01",
+                          "check_out_date": "2024-07-10",
                           "number_of_guests": 2,
-                          "special_requests": "Quiet room"
+                          "special_requests": "Near the elevator"
                         }
                       }
                     }
@@ -310,7 +306,7 @@
           },
           "delete": {
             "summary": "Delete a reservation",
-            "description": "Cancel a reservation for an accommodation",
+            "description": "Cancel a reservation at a hotel",
             "parameters": [
               {
                 "in": "path",
@@ -320,7 +316,7 @@
                 },
                 "required": true,
                 "description": "The ID of the reservation",
-                "example": "res123"
+                "example": "resv123"
               }
             ],
             "responses": {
@@ -339,58 +335,58 @@
       },
       "components": {
         "schemas": {
-          "Accommodation": {
+          "Hotel": {
             "type": "object",
             "properties": {
               "id": {
                 "type": "string",
-                "description": "The unique identifier for the accommodation",
-                "example": "acc123"
+                "description": "The unique identifier for the hotel",
+                "example": "hotel123"
               },
               "name": {
                 "type": "string",
-                "description": "The name of the accommodation",
-                "example": "Eiffel Tower View Apartment"
+                "description": "The name of the hotel",
+                "example": "Grand Plaza Hotel"
               },
               "address": {
                 "type": "string",
-                "description": "The address of the accommodation",
-                "example": "123 Champs-Élysées, 75008 Paris, France"
+                "description": "The address of the hotel",
+                "example": "123 Main St, New York, NY 10001"
               },
               "city": {
                 "type": "string",
-                "description": "The city where the accommodation is located",
-                "example": "Paris"
+                "description": "The city where the hotel is located",
+                "example": "New York"
               },
               "price_per_night": {
                 "type": "number",
                 "format": "float",
-                "description": "The price per night for the accommodation",
-                "example": 150
+                "description": "The price per night for the hotel",
+                "example": 250
               },
               "rating": {
                 "type": "number",
                 "format": "float",
-                "description": "The rating of the accommodation",
-                "example": 4.7
+                "description": "The rating of the hotel",
+                "example": 4.5
               },
               "amenities": {
                 "type": "array",
                 "items": {
                   "type": "string"
                 },
-                "description": "A list of amenities provided by the accommodation",
+                "description": "A list of amenities provided by the hotel",
                 "example": [
                   "Free WiFi",
-                  "Air Conditioning",
-                  "Kitchen",
-                  "Balcony"
+                  "Swimming Pool",
+                  "Gym",
+                  "Spa"
                 ]
               },
               "description": {
                 "type": "string",
-                "description": "A detailed description of the accommodation",
-                "example": "A cozy apartment with a stunning view of the Eiffel Tower, located in the heart of Paris."
+                "description": "A detailed description of the hotel",
+                "example": "A luxurious hotel located in the heart of the city, offering comfortable rooms and excellent amenities."
               },
               "availability": {
                 "type": "object",
@@ -398,19 +394,19 @@
                   "check_in_date": {
                     "type": "string",
                     "format": "date",
-                    "description": "The check-in date for the accommodation stay",
-                    "example": "2024-08-01"
+                    "description": "The check-in date for the hotel stay",
+                    "example": "2024-07-01"
                   },
                   "check_out_date": {
                     "type": "string",
                     "format": "date",
-                    "description": "The check-out date for the accommodation stay",
-                    "example": "2024-08-10"
+                    "description": "The check-out date for the hotel stay",
+                    "example": "2024-07-10"
                   },
                   "available_rooms": {
                     "type": "integer",
                     "description": "The number of available rooms for the specified dates",
-                    "example": 3
+                    "example": 5
                   }
                 }
               }
@@ -419,27 +415,27 @@
           "NewReservation": {
             "type": "object",
             "properties": {
-              "accommodation_id": {
+              "hotel_id": {
                 "type": "string",
-                "description": "The ID of the accommodation being reserved",
-                "example": "acc123"
+                "description": "The ID of the hotel being reserved",
+                "example": "hotel123"
               },
               "guest_name": {
                 "type": "string",
                 "description": "The name of the guest making the reservation",
-                "example": "Jane Smith"
+                "example": "John Doe"
               },
               "check_in_date": {
                 "type": "string",
                 "format": "date",
                 "description": "The check-in date for the reservation",
-                "example": "2024-08-01"
+                "example": "2024-07-01"
               },
               "check_out_date": {
                 "type": "string",
                 "format": "date",
                 "description": "The check-out date for the reservation",
-                "example": "2024-08-10"
+                "example": "2024-07-10"
               },
               "number_of_guests": {
                 "type": "integer",
@@ -449,11 +445,11 @@
               "special_requests": {
                 "type": "string",
                 "description": "Any special requests for the reservation",
-                "example": "Late check-in"
+                "example": "High floor room"
               }
             },
             "required": [
-              "accommodation_id",
+              "hotel_id",
               "guest_name",
               "check_in_date",
               "check_out_date",
@@ -466,29 +462,29 @@
               "id": {
                 "type": "string",
                 "description": "The unique identifier for the reservation",
-                "example": "res123"
+                "example": "resv123"
               },
-              "accommodation_id": {
+              "hotel_id": {
                 "type": "string",
-                "description": "The ID of the accommodation being reserved",
-                "example": "acc123"
+                "description": "The ID of the hotel being reserved",
+                "example": "hotel123"
               },
               "guest_name": {
                 "type": "string",
                 "description": "The name of the guest making the reservation",
-                "example": "Jane Smith"
+                "example": "John Doe"
               },
               "check_in_date": {
                 "type": "string",
                 "format": "date",
                 "description": "The check-in date for the reservation",
-                "example": "2024-08-01"
+                "example": "2024-07-01"
               },
               "check_out_date": {
                 "type": "string",
                 "format": "date",
                 "description": "The check-out date for the reservation",
-                "example": "2024-08-10"
+                "example": "2024-07-10"
               },
               "number_of_guests": {
                 "type": "integer",
@@ -498,7 +494,7 @@
               "special_requests": {
                 "type": "string",
                 "description": "Any special requests for the reservation",
-                "example": "Late check-in"
+                "example": "High floor room"
               }
             }
           }
@@ -507,13 +503,13 @@
     },
     "apiArtifacts": {
       "apiImages": {
-        "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/frame.png",
-        "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+        "api-landing-page-image": "/resources/mock/api-images/hotel-availability.jpeg",
+        "api-detail-page-image": "/resources/mock/api-images/hotel-availability-mini.jpeg"
       }
     }
   },
   "serverUrl": {
-    "sandboxUrl": "https://accommodation.api.sandbox.abc.com",
-    "productionUrl": "https://accommodation.api.abc.com"
+    "sandboxUrl": "https://hotelavailability.api.sandbox.abc.com",
+    "productionUrl": "https://hotelavailability.api.abc.com"
   }
 }

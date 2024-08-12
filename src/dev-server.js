@@ -165,7 +165,7 @@ const registerPartials = (dir) => {
 
 const renderTemplate = (templateName, layoutName, templateContent) => {
 
-    const templatePath = path.join(__dirname, filePrefix + templateName);
+    const templatePath = path.join(__dirname, filePrefix + templateName);    
     const templateResponse = fs.readFileSync(templatePath, 'utf-8')
 
     const layoutPath = path.join(__dirname, filePrefix + layoutName);
@@ -296,7 +296,7 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
 });
 
 // Wildcard Route for other pages
-app.get('/((?!styles)/*)', ensureAuthenticated, (req, res) => {
+app.get('/*', ensureAuthenticated, (req, res) => {
 
     const filePath = req.originalUrl.split("/").pop();
 
