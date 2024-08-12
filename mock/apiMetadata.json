@@ -13,7 +13,7 @@
                 "info": {
                     "title": "Accommodation API",
                     "description": "API for managing accommodations and reservations in a specified city",
-                    "version": "1.0.0"
+                    "version": "1.1.0"
                 }
             },
             "apiArtifacts": {
@@ -37,7 +37,7 @@
                 "info": {
                     "title": "Leisure Activities API",
                     "description": "API for retrieving information about leisure activities and managing reservations",
-                    "version": "1.0.0"
+                    "version": "2.1.0"
                 }
             },
             "apiArtifacts": {
@@ -61,7 +61,7 @@
                 "info": {
                     "title": "Famous Attractions API",
                     "description": "API for retrieving information about famous attractions in various cities",
-                    "version": "1.0.0"
+                    "version": "2.0.0"
                 }
             },
             "apiArtifacts": {
@@ -85,7 +85,7 @@
                 "info": {
                     "title": "Hotel Availability API",
                     "description": "API for checking hotel availability and managing hotel reservations in a specified city",
-                    "version": "1.0.0"
+                    "version": "1.1.0"
                 }
             },
             "apiArtifacts": {

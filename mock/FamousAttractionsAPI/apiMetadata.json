@@ -12,7 +12,7 @@
       "info": {
         "title": "Famous Attractions API",
         "description": "API for retrieving information about famous attractions in various cities",
-        "version": "1.0.0"
+        "version": "2.0.0"
       },
       "servers": [
         {

@@ -13,7 +13,7 @@
       "info": {
         "title": "Leisure Activities API",
         "description": "API for retrieving information about leisure activities and managing reservations",
-        "version": "1.0.0"
+        "version": "2.1.0"
       },
       "servers": [
         {
