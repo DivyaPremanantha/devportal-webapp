@@ -1,0 +1,240 @@
+/* styles of key features */
+.features-container {
+  padding: 60px 40px 20px 40px;
+  background-color: var(--main-bg-color);
+  text-align: center;
+}
+
+/* styles of api overview */
+.api-overview {
+  padding: 40px 80px;
+  background-color: var(--light-bg-color);
+}
+
+.overview-title {
+  font-size: 36px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+}
+
+.api-content-text .intro-text,
+.api-sidebar {
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 900px;
+}
+
+.section-title {
+  font-size: 16px;
+  color: var(--main-text-color);
+  margin-bottom: 20px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.requirement-list {
+  padding: 0;
+  list-style: none;
+}
+
+.requirement-list li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.requirement-list .bi {
+  vertical-align: 0;
+}
+
+.api-sidebar {
+  border: 1px solid var(--primary-color);
+  padding: 35px;
+  border-radius: 32px;
+  background-color: transparent;
+}
+
+.api-list {
+  list-style: none;
+  padding: 0;
+}
+
+.api-list li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.api-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.api-sidebar .common-btn-secondary {
+  border-color: var(--main-text-color);
+  color: var(--main-text-color);
+  padding: 5px 40px;
+  margin-top: 8px;
+}
+
+.api-sidebar .common-btn-secondary:hover {
+  background-color: var(--main-text-color);
+  border-color: var(--font-colour-primary);
+  color: var(--font-colour-primary);
+}
+
+.api-sidebar .common-btn-secondary:active {
+  background-color: var(--main-text-color);
+  border-color: var(--font-colour-primary);
+  color: var(--font-colour-primary);
+}
+
+/* styles of how it work */
+
+.howwork-content {
+  padding: 60px 30px 40px 30px;
+  background-color: var(--main-bg-color);
+  text-align: center;
+}
+
+.card-section {
+  justify-content: center;
+}
+
+.custom-api-card {
+  padding: 10px;
+  margin: 0 30px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: var(--dark-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--font-colour-primary);
+  font-weight: bold;
+  font-size: 18px;
+  position: relative;
+  margin-right: 7px;
+}
+
+.yellow-circle {
+  width: 12px;
+  height: 12px;
+  background-color: var(--light-color);
+  border-radius: 50%;
+  margin-top: 15px;
+}
+
+.work-apicard-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--main-text-color);
+  margin-bottom: 15px;
+}
+
+.custom-api-card p {
+  font-size: 14px;
+  color: var(--main-text-color);
+  line-height: 1.5;
+}
+
+/* styles of FAQ */
+.faq-container {
+  padding: 40px 70px;
+  background-color: var(--main-bg-color);
+  text-align: left;
+  margin-top: 20px;
+}
+
+.faq-container h1 {
+  font-size: 32px;
+  color: var(--main-text-color);
+  margin-bottom: 10px;
+}
+
+.faq-container p {
+  font-size: 14px;
+  color: var(--main-text-color);
+  opacity: 0.8;
+}
+
+.faq-container a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.faq-container a:hover {
+  text-decoration: underline;
+}
+
+.faq-item {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.faq-question {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--main-text-color);
+  margin-bottom: 8px;
+}
+
+.faq-tags {
+  margin-bottom: 10px;
+}
+
+.faq-badge-custom1 {
+  border: 1px solid var(--border-colour-primary);
+  background-color: #d0e1f6;
+  color: var(--border-colour-primary);
+  margin: 0px 5px 10px 0;
+  padding: 6px 20px;
+  border-radius: 30px;
+  font-size: 12px;
+}
+
+.faq-answer {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #abb0c0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
