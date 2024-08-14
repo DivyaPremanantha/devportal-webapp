@@ -1,56 +1,118 @@
 <section>
+  <div class="col-lg-12 container-fluid search-content">
+    <div>
+      <h2 class="api-list-header">Explore Our Diverse API Ecosystem</h2>
+      <h5 class="dev-sub-header h5 api-list-subheader">Discover a wide range of
+        APIs tailored to enhance your development process and drive innovation.</h5>
+    </div>
+    <div class="col-lg-10 search-container">
+      <div class="search-input">
+        <i class="bi bi-search"></i>
+        <input type="text" id="query" placeholder="Search APIs" />
+      </div>
+    </div>
+  </div>
   <div class="container-fluid col-lg-12 apilist-container">
     <div class="row list-items">
       <div class="col-lg-2 api-filterlist">
         <h6 class="filter-header">Filter By</h6>
         <div class="row list-items api-filter-content">
           <div class="col-lg filter-sub"> Explore </div>
-          <div class="col-lg" id="exploreFilter" data-bs-toggle="collapse" data-bs-target="#collapseExplore"
-            aria-expanded="false" aria-controls="collapseExample">
+          <div
+            class="col-lg"
+            id="exploreFilter"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExplore"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
             <i class="bi bi-chevron-down"></i>
           </div>
           <hr />
           <div class="collapse" id="collapseExplore">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
               <label class="form-check-label" for="flexCheckDefault">All</label>
             </div>
           </div>
           <div class="collapse" id="collapseExplore">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              <label class="form-check-label" for="flexCheckDefault">Recently Added</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">Recently
+                Added</label>
             </div>
           </div>
           <div class="collapse" id="collapseExplore">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              <label class="form-check-label" for="flexCheckDefault">Trending</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+              >Trending</label>
             </div>
           </div>
         </div>
         <div class="row list-items api-filter-content">
           <div class="col-lg filter-sub"> Category </div>
-          <div class="col-lg" id="categoryFilter" data-bs-toggle="collapse" data-bs-target="#collapseCategory"
-            aria-expanded="false" aria-controls="collapseExample">
+          <div
+            class="col-lg"
+            id="categoryFilter"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseCategory"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
             <i class="bi bi-chevron-down"></i>
           </div>
           <hr />
           <div class="collapse" id="collapseCategory">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              <label class="form-check-label" for="flexCheckDefault">Account</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+              >Account</label>
             </div>
           </div>
           <div class="collapse" id="collapseCategory">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
               <label class="form-check-label" for="flexCheckDefault">AI</label>
             </div>
           </div>
           <div class="collapse" id="collapseCategory">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
               <label class="form-check-label" for="flexCheckDefault">Business
                 Intelligence</label>
             </div>
@@ -62,29 +124,41 @@
           <div class="col">
             <div class="row list-items container-fluid">
               {{#apiMetadata}}
-              <div class="card dev-card api-card lg-3">
-                <img src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}} class="api-card-img" alt="..." />
-                <div class="api-card-body">
-                  <h5 class="api-card-title">{{apiInfo.openApiDefinition.info.title}}</h5>
-                  <p>V {{apiInfo.openApiDefinition.info.version}}</p>
-                  <span class="badge badge-custom1">{{apiInfo.apiCategory}}</span>
-                  <p>{{apiInfo.openApiDefinition.info.description}}</p>
-                  <div class="row list-items">
-                    <div class="api-tags">
-                      {{#apiInfo.tags}}
-                      <span class="badge badge-custom2">{{this}}</span>
-                      {{/apiInfo.tags}}
+                <div class="card dev-card api-card lg-3">
+                  <img
+                    src={{apiInfo.apiArtifacts.apiImages.api-detail-page-image}}
+                    class="api-card-img"
+                    alt="..."
+                  />
+                  <div class="api-card-body">
+                    <h5
+                      class="api-card-title"
+                    >{{apiInfo.openApiDefinition.info.title}}</h5>
+                    <p>V {{apiInfo.openApiDefinition.info.version}}</p>
+                    <span
+                      class="badge badge-custom1"
+                    >{{apiInfo.apiCategory}}</span>
+                    <p>{{apiInfo.openApiDefinition.info.description}}</p>
+                    <div class="row list-items">
+                      <div class="api-tags">
+                        {{#apiInfo.tags}}
+                          <span class="badge badge-custom2">{{this}}</span>
+                        {{/apiInfo.tags}}
+                      </div>
                     </div>
-                  </div>
-                  <div class="apibtn-container">
-                    <div class="row">
-                      <div class="col-5 text-left">
-                        <a type="button" class="btn apilistbtn-primary" href="{{baseUrl}}/api/{{apiInfo.apiName}}">Overview</a>
+                    <div class="apibtn-container">
+                      <div class="row">
+                        <div class="col-5 text-left">
+                          <a
+                            type="button"
+                            class="btn apilistbtn-primary"
+                            href="{{baseUrl}}/api/{{apiInfo.apiName}}"
+                          >Overview</a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               {{/apiMetadata}}
             </div>
           </div>
