@@ -103,9 +103,7 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
 
     console.log(req.hostname)
 
-    if(!req.hostname.match("localhost")) {
-        console.log("local")
-
+    if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
@@ -152,7 +150,7 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
 // Route to render Handlebars templates fetched from the database
 router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) => {
 
-    if(!req.hostname.match("localhost")) {
+    if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
         console.log("Connection URLs");
@@ -185,7 +183,7 @@ router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) =
 
 router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, res) => {
 
-    if(!req.hostname.match("localhost")) {
+    if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
@@ -226,7 +224,7 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
 router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async (req, res) => {
 
 
-    if(!req.hostname.match("localhost")) {
+    if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
@@ -283,16 +281,15 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
 
 router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (req, res) => {
 
-    if(!req.hostname.match("localhost")) {
+    if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
     const orgName = req.params.orgName;
-    const filePath = req.originalUrl.split(orgName)[1];
-    //const markdonwFile = req.params[0].split("/").pop() + ".md";
+    const filePath = req.originalUrl.split(orgName+"/")[1];
 
     const url = config.adminAPI + "orgFiles?orgName=" + orgName;
-    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=template&filePath=" + filePath;
+    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=template&filePath=" + filePath + "&fileName=page.hbs";
     try {
         const templateResponse = await fetch(templateURL);
         var templateContent = await templateResponse.text();
@@ -300,22 +297,26 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
-        //const markdownResponse = await fetch(url + "orgFileType?orgName=" + orgName + "&fileType=marked");
-        //const markdownContent = await markdownResponse.text();
+
+        var content = {}
+        const markdownResponse = await fetch(url + "orgFileType?orgName=" + orgName + "&fileType=markDown&filePath=" + filePath);
+        var markDownFiles = await markdownResponse.json();
+        if (markDownFiles.length > 0) {
+            markDownFiles.forEach((item) => {
+                const tempKey = item.pageName.split('.md')[0];
+                content[tempKey] = markdown.parse(item.pageContent);
+            });
+        }
+        content["baseUrl"] = "http://localhost:3000";
         const template = Handlebars.compile(templateContent.toString());
         const layout = Handlebars.compile(layoutContent.toString());
-
-        // const html = layout({
-        //     body: template(markdown.parse(markdownContent)),
-        // });
         const html = layout({
-            body: template(),
+            body: template(content),
         });
         res.send(html);
     } catch (err) {
         console.log(err);
     }
-
 });
 
 
