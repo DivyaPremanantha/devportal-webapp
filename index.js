@@ -141,7 +141,8 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
     hbs.handlebars.partials = {
         ...hbs.handlebars.partials,
         header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] }),
-        "api-content": hbs.handlebars.compile(partialObject['api-content'])({ content: markdownHtml })
+        "api-content": hbs.handlebars.compile(partialObject['api-content'])({ content: markdownHtml }),
+        "hero": hbs.handlebars.compile(partialObject['hero'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
     };
     next();
 });
