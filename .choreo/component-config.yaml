@@ -1,0 +1,16 @@
+apiVersion: core.choreo.dev/v1beta1
+kind: ComponentConfig
+spec:
+  # +optional Outgoing connection details for the component.
+  outbound:
+    serviceReferences:
+    - name: choreo:///sachiniwso2/bvck/devportalbackend/5c87d/v1/PUBLIC
+      connectionConfig: 01ef5a1c-b7bd-15f6-89c9-03f3880c6459
+      env:
+      - from: ServiceURL
+        to: AdminURL
+    - name: choreo:///sachiniwso2/bvck/devportalbackend/6f686/v1/PUBLIC
+      connectionConfig: 01ef5a1d-5944-1b08-bd24-b829ad83f59e
+      env:
+      - from: ServiceURL
+        to: APIMetaDataURL
