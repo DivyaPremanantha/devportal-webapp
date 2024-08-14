@@ -272,15 +272,30 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, async (req, res) => {
 
-
+    const orgName = req.params.orgName;
+    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
+    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
-    res.render('tryout', {
-        apiMetadata: metaData,
-        orgName: req.params.orgName,
+    const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
+    var layoutContent = await layoutResponse.text();
+    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+
+    const templateResponse = await fetch(templateURL + "&fileType=template&filePath=tryout&fileName=page.hbs");
+    var templateContent = await templateResponse.text();
+
+    const template = Handlebars.compile(templateContent.toString());
+    const layout = Handlebars.compile(layoutContent.toString());
+
+    var html = layout({
+        body: template({
+            apiMetadata: metaData,
+            baseUrl: '/' + req.params.orgName,
+        }),
     });
+    res.send(html);
 
 });
 
