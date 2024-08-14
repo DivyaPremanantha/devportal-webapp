@@ -299,7 +299,7 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
         layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
 
         var content = {}
-        const markdownResponse = await fetch(url + "orgFileType?orgName=" + orgName + "&fileType=markDown&filePath=" + filePath);
+        const markdownResponse = await fetch(config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=markDown&filePath=" + filePath);
         var markDownFiles = await markdownResponse.json();
         if (markDownFiles.length > 0) {
             markDownFiles.forEach((item) => {
@@ -307,7 +307,7 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
                 content[tempKey] = markdown.parse(item.pageContent);
             });
         }
-        content["baseUrl"] = "http://localhost:3000";
+        content["baseUrl"] = "/" + orgName;
         const template = Handlebars.compile(templateContent.toString());
         const layout = Handlebars.compile(layoutContent.toString());
         const html = layout({
