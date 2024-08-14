@@ -48,7 +48,7 @@
 .api-tags {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   max-width: 350px;
 }
 

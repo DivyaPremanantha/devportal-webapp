@@ -68,15 +68,13 @@
   color: var(--main-text-color);
 }
 
-.sub-btn {
-  padding: 8px 24px;
+.newsletter-sub-btn {
   margin-left: 5px;
-  margin-top: 3px;
 }
 
 .form-input {
   border-radius: 25px;
-  padding: 8px 24px;
+  padding: 10px 24px;
   border: 1px solid #ccc;
   max-width: 400px;
   width: 255px;
