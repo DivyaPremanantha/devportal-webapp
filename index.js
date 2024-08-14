@@ -202,6 +202,10 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
 
+    metaData.forEach(item => {
+        item.baseUrl = '/' + req.params.orgName;
+    });
+
     metaData.forEach(element => {
         const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
         const modifiedApiImageURL = apiImageUrl + "&fileName=" + element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'];
