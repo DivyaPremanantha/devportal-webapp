@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const markdown = require('marked');
+const fs = require('fs');
 const Handlebars = require('handlebars');
 var config = require('./config');
 const session = require('express-session');
@@ -97,6 +98,20 @@ const ensureAuthenticated = async (req, res, next) => {
     };
 
 };
+
+const renderTemplate = (templateName, layoutResponse, templateContent) => {
+
+    const templatePath = path.join(__dirname, templateName);
+    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+
+    const template = Handlebars.compile(templateResponse.toString());
+    const layout = Handlebars.compile(layoutResponse.toString());
+
+    const html = layout({
+        body: template(templateContent)
+    });
+    return html;
+}
 
 // Middleware to load partials from the database
 app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
@@ -271,16 +286,26 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, async (req, res) => {
 
+    const orgName = req.params.orgName;
+    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
+    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
 
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
 
-    res.render('tryout', {
+    const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
+    var layoutContent = await layoutResponse.text();
+    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+
+    var templateContent = {
         apiMetadata: metaData,
         orgName: req.params.orgName,
-    });
+        baseUrl: '/' + req.params.orgName,
+    }
 
+    const html = renderTemplate('src/pages/tryout/page.hbs', layoutContent, templateContent);
+    res.send(html);
 });
 
 router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (req, res) => {
