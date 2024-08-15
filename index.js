@@ -138,6 +138,7 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
         partialObject[fileName] = content;
     });
 
+
     const markdownResponse = await fetch(apiContetnUrl + "&fileName=content.md");
     const markdownContent = await markdownResponse.text();
     const markdownHtml = markdownContent ? markdown.parse(markdownContent) : '';
@@ -288,12 +289,11 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, async (req, res) => {
 
     const orgName = req.params.orgName;
-    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
     const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
-
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
+    
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
@@ -306,17 +306,12 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
-    const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
-    var layoutContent = await layoutResponse.text();
-    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
-
-    var templateContent = {
-        apiMetadata: metaData,
-        orgName: req.params.orgName,
-        baseUrl: '/' + req.params.orgName,
-    }
-
-    const html = renderTemplate('src/pages/tryout/page.hbs', layoutContent, templateContent);
+    var html = layout({
+        body: template({
+            apiMetadata: metaData,
+            baseUrl: '/' + req.params.orgName,
+        }),
+    });
     res.send(html);
 });
 
