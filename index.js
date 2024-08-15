@@ -156,7 +156,8 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
     hbs.handlebars.partials = {
         ...hbs.handlebars.partials,
         header: hbs.handlebars.compile(partialObject['header'])({ baseUrl: '/' + req.originalUrl.split("/")[1] }),
-        "api-content": hbs.handlebars.compile(partialObject['api-content'])({ content: markdownHtml })
+        "api-content": hbs.handlebars.compile(partialObject['api-content'])({ content: markdownHtml }),
+        "hero": hbs.handlebars.compile(partialObject['hero'])({ baseUrl: '/' + req.originalUrl.split("/")[1] })
     };
     next();
 });
@@ -293,6 +294,17 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
+    const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
+
+    const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
+    var layoutContent = await layoutResponse.text();
+    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
+
+    const templateResponse = await fetch(templateURL + "&fileType=template&filePath=tryout&fileName=page.hbs");
+    var templateContent = await templateResponse.text();
+
+    const template = Handlebars.compile(templateContent.toString());
+    const layout = Handlebars.compile(layoutContent.toString());
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
