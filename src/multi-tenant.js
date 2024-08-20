@@ -256,7 +256,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
     }
     const orgName = req.params.orgName;
     const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
-    const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + orgName + "&apiID=" + req.params.apiName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "api?orgName=" + orgName + "&apiID=" + req.params.apiName;
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
