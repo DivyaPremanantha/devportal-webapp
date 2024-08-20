@@ -179,15 +179,12 @@ router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) =
     const orgName = req.params.orgName;
     const url = config.adminAPI + "orgFiles?orgName=" + orgName;
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
-    // "&fileType=template&filePath=" + filePath;
 
     try {
         const templateResponse = await fetch(templateURL + "&fileType=template&filePath=home&fileName=page.hbs");
         var templateContent = await templateResponse.text();
-        templateContent = templateContent.replace("/images/", url + "&fileName=");
         const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
-        layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
 
         const template = Handlebars.compile(templateContent.toString());
         const layout = Handlebars.compile(layoutContent.toString());
@@ -216,7 +213,6 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
-    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
 
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
@@ -227,13 +223,18 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
 
     metaData.forEach(element => {
         const images = element.apiInfo.apiArtifacts.apiImages;
+        var apiImageUrl = '';
         for (var key in images) {
-            const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+            if (config.env == 'local') {
+                apiImageUrl = config.apiImageURL + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+            } else {
+                apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+            }
             const modifiedApiImageURL = apiImageUrl + "&fileName=" + images[key]
             element.apiInfo.apiArtifacts.apiImages[key] = modifiedApiImageURL;
         }
     });
-  
+
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
@@ -265,7 +266,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
-    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
 
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
@@ -274,7 +274,12 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
     const images = metaData.apiInfo.apiArtifacts.apiImages;
 
     for (var key in images) {
-        const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+        var apiImageUrl = '';
+        if (config.env == 'local') {
+            apiImageUrl = config.apiImageURL + "apiFiles?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
+        } else {
+            apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+        }
         const modifiedApiImageURL = apiImageUrl + "&fileName=" + images[key]
         images[key] = modifiedApiImageURL;
     }
@@ -302,7 +307,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
     var layoutContent = await layoutResponse.text();
-    layoutContent = layoutContent.replaceAll("/styles/", orgFilesUrl + "&fileName=");
 
     const templateResponse = await fetch(templateURL + "&fileType=template&filePath=tryout&fileName=page.hbs");
     var templateContent = await templateResponse.text();
@@ -336,7 +340,6 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
         templateContent = templateContent.replace("/images/", url + "&fileName=");
         const layoutResponse = await fetch(url + "&fileName=main.hbs");
         var layoutContent = await layoutResponse.text();
-        layoutContent = layoutContent.replaceAll("/styles/", url + "&fileName=");
 
         var content = {}
         const markdownResponse = await fetch(config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=markDown&filePath=" + filePath);
