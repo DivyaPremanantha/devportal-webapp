@@ -4,7 +4,7 @@
   "description": "devportal-webapp",
   "main": "index.js",
   "scripts": {
-    "start": "node src/multi-tenant.js",
+    "start": "node src/single-tenant.js",
     "devportal-dev": "npm run build-css --watch & nodemon src/dev-server.js",
     "devportal-prod": "node src/multi-tenant.js",
     "build-css": "node watcher.js"

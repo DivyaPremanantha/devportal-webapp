@@ -100,20 +100,6 @@ const ensureAuthenticated = async (req, res, next) => {
 
 };
 
-const renderTemplate = (templateName, layoutResponse, templateContent) => {
-
-    const templatePath = path.join(__dirname, templateName);
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
-
-    const template = Handlebars.compile(templateResponse.toString());
-    const layout = Handlebars.compile(layoutResponse.toString());
-
-    const html = layout({
-        body: template(templateContent)
-    });
-    return html;
-}
-
 // Middleware to load partials from the database
 app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
 
@@ -204,7 +190,6 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
     const orgName = req.params.orgName;
-    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiList?orgName=" + orgName;
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
@@ -256,7 +241,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
     const orgName = req.params.orgName;
-    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "api?orgName=" + orgName + "&apiID=" + req.params.apiName;
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
@@ -298,7 +282,6 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, async (req, res) => {
 
     const orgName = req.params.orgName;
-    const orgFilesUrl = config.adminAPI + "orgFiles?orgName=" + orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
