@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars');
 const markdown = require('marked');
 const fs = require('fs');
 const Handlebars = require('handlebars');
-var config = require('./config');
+var config = require('../config');
 const session = require('express-session');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
@@ -86,7 +86,8 @@ const ensureAuthenticated = async (req, res, next) => {
     var orgDetails = await orgDetailsResponse.json();
 
 
-    if ((req.originalUrl != '/favicon.ico' | req.originalUrl != '/images') && orgDetails.authenticatedPages != null && orgDetails.authenticatedPages.some(pattern => minimatch.minimatch(req.originalUrl, pattern))) {
+    if ((req.originalUrl != '/favicon.ico' | req.originalUrl != '/images') && orgDetails.authenticatedPages != null
+        && orgDetails.authenticatedPages.some(pattern => minimatch.minimatch(req.originalUrl, pattern))) {
         if (req.isAuthenticated()) {
             return next();
         } else {
@@ -123,6 +124,7 @@ app.use(/\/((?!favicon.ico|images).*)/, async (req, res, next) => {
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
     const orgName = req.originalUrl.split("/")[1];
+
     const apiName = req.originalUrl.split("/").pop();
     const url = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=partials";
     const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + orgName + "&apiID=" + apiName;
@@ -224,11 +226,14 @@ router.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async (req, r
     });
 
     metaData.forEach(element => {
-        const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
-        const modifiedApiImageURL = apiImageUrl + "&fileName=" + element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'];
-        element.apiInfo.apiArtifacts.apiImages['api-detail-page-image'] = modifiedApiImageURL;
+        const images = element.apiInfo.apiArtifacts.apiImages;
+        for (var key in images) {
+            const apiImageUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + element.apiInfo.orgName + "&apiID=" + element.apiInfo.apiName;
+            const modifiedApiImageURL = apiImageUrl + "&fileName=" + images[key]
+            element.apiInfo.apiArtifacts.apiImages[key] = modifiedApiImageURL;
+        }
     });
-
+  
     const template = Handlebars.compile(templateContent.toString());
     const layout = Handlebars.compile(layoutContent.toString());
 
@@ -293,7 +298,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
-    
+
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName;
 
     const layoutResponse = await fetch(templateURL + "&fileType=layout&filePath=main&fileName=main.hbs");
@@ -322,7 +327,7 @@ router.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, async (re
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
     }
     const orgName = req.params.orgName;
-    const filePath = req.originalUrl.split(orgName+"/")[1];
+    const filePath = req.originalUrl.split(orgName + "/")[1];
 
     const url = config.adminAPI + "orgFiles?orgName=" + orgName;
     const templateURL = config.adminAPI + "orgFileType?orgName=" + orgName + "&fileType=template&filePath=" + filePath + "&fileName=page.hbs";

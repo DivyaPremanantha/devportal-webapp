@@ -1,12 +1,15 @@
 {
   "name": "devportal-webapp",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "devportal-webapp",
   "main": "index.js",
   "scripts": {
     "devportal-dev": "npm run build-css --watch & nodemon src/dev-server.js",
-    "devportal-prod": "nodemon index.js",
+    "devportal-prod": "nodemon src/multi-tenant.js",
     "build-css": "node watcher.js"
+  },
+  "bin": {
+    "execute": "scripts/devportalExec.js"
   },
   "repository": {
     "type": "git",
