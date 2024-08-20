@@ -1,15 +1,13 @@
 {
   "name": "devportal-webapp",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "devportal-webapp",
   "main": "index.js",
   "scripts": {
+    "start": "node src/multi-tenant.js",
     "devportal-dev": "npm run build-css --watch & nodemon src/dev-server.js",
-    "devportal-prod": "nodemon src/multi-tenant.js",
+    "devportal-prod": "node src/multi-tenant.js",
     "build-css": "node watcher.js"
-  },
-  "bin": {
-    "execute": "scripts/devportalExec.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +43,7 @@
     "passport-oauth2": "^1.8.0",
     "passport-openidconnect": "^0.0.2",
     "path": "^0.12.7",
-    "pg": "^8.12.0"
+    "pg": "^8.12.0",
+    "shelljs": "^0.8.5"
   }
 }
