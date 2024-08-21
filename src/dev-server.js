@@ -186,7 +186,7 @@ app.get('/login', (req, res, next) => {
     if (authJson.clientID) {
         next();
     } else {
-        res.redirect('/');
+        res.status(400).send("No Identity Provider information found for the organization");
     }
 
 }, passport.authenticate('oauth2'));
