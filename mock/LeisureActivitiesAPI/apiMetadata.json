@@ -468,8 +468,7 @@
     },
     "apiArtifacts": {
       "apiImages": {
-        "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/frame.png",
-        "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/accommodation-mini.jpeg"
+        "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
       }
     }
   },

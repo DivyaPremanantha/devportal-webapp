@@ -62,7 +62,7 @@ app.get('/((?!favicon.ico)):orgName/login', async (req, res, next) => {
         }));
         next();
     } else {
-        res.redirect("/" + req.params.orgName)
+        res.status(400).send("No Identity Provider information found for the organization");
     }
 }, passport.authenticate('oauth2'));
 
@@ -280,7 +280,7 @@ router.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async
 });
 
 router.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, async (req, res) => {
-
+    
     const orgName = req.params.orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiDefinition?orgName=" + req.params.orgName + "&apiID=" + req.params.apiName;
     const metadataResponse = await fetch(apiMetaDataUrl);

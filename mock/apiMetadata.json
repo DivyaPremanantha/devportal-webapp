@@ -18,8 +18,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -42,8 +41,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -66,8 +64,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -90,8 +87,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -115,8 +111,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -139,8 +134,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/leisure.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -163,8 +157,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/attractions.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
@@ -187,8 +180,7 @@
             },
             "apiArtifacts": {
                 "apiImages": {
-                    "api-landing-page-image": "https://d30n1aq29wj74v.cloudfront.net/ACBOrganization/resources/images/hotel-availability.jpeg",
-                    "api-detail-page-image": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
+                    "api-icon": "https://d30n1aq29wj74v.cloudfront.net/ABCOrganization/api.svg"
                 }
             }
         }
