@@ -45,13 +45,13 @@ app.use(session({
 }));
 
 // Configure the OpenID Connect strategy
-if (authJson.clientID) {
+if (authJson.clientId) {
     passport.use(new OAuth2Strategy({
         issuer: authJson.issuer,
         authorizationURL: authJson.authorizationURL,
         tokenURL: authJson.tokenURL,
         userInfoURL: authJson.userInfoURL,
-        clientID: authJson.clientID,
+        clientID: authJson.clientId,
         callbackURL: authJson.callbackURL,
         scope: authJson.scope,
     }, (accessToken, refreshToken, profile, done) => {
@@ -183,7 +183,7 @@ const renderTemplate = (templateName, layoutName, templateContent) => {
 // Route to start the authentication process
 
 app.get('/login', (req, res, next) => {
-    if (authJson.clientID) {
+    if (authJson.clientId) {
         next();
     } else {
         res.status(400).send("No Identity Provider information found for the organization");
@@ -201,6 +201,7 @@ app.get('/callback', (req, res, next) => {
     // Retrieve the original URL from the session
     const returnTo = req.session.returnTo || '/';
     // Clear the returnTo variable from the session
+    console.log("returnTo", returnTo);
     delete req.session.returnTo;
     res.redirect(returnTo);
 });
@@ -211,6 +212,8 @@ const ensureAuthenticated = (req, res, next) => {
         if (req.isAuthenticated()) {
             return next();
         } else {
+            console.log("Redirecting to login page");
+            console.log("Original URL", req.originalUrl);
             req.session.returnTo = req.originalUrl || '/';
             res.redirect('/login');
         }
