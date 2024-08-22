@@ -31,8 +31,7 @@ app.engine('.hbs', engine({
     extname: '.hbs'
 }));
 app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, filePrefix + '../public')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, filePrefix + 'images')));
 
 
 app.use(session({
@@ -64,9 +63,9 @@ const copyStyelSheet = () => {
 
     }
     var styleDir = [];
-    searchFile(path.join(__dirname, 'partials'), ".css", styleDir);
-    searchFile(path.join(__dirname, 'layout'), ".css", styleDir);
-    searchFile(path.join(__dirname, 'pages'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'partials'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'layout'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'pages'), ".css", styleDir);
 }
 
 function searchFile(dir, fileName, styleDir) {
@@ -146,8 +145,9 @@ const loadMarkdown = (filename, dirName) => {
     }
 };
 
-const registerPartials = (dir) => {
+const registerPartials = (orgName, dir) => {
     const filenames = fs.readdirSync(dir);
+    console.log(filenames);
     filenames.forEach((filename) => {
         const matches = /^([^.]+).hbs$/.exec(filename);
         if (!matches) {
@@ -157,6 +157,11 @@ const registerPartials = (dir) => {
         if (!name.endsWith('.css')) {
             const template = fs.readFileSync(path.join(dir, filename), 'utf8');
             hbs.handlebars.registerPartial(name, template);
+
+            hbs.handlebars.partials = {
+                ...hbs.handlebars.partials,
+                header: hbs.handlebars.compile(template)({ baseUrl: '/' + orgName })
+            };
         }
     });
 };
@@ -167,7 +172,7 @@ const renderTemplate = (templatePath, layoutPath, templateContent) => {
     const templateResponse = fs.readFileSync(completeTemplatePath, 'utf-8')
 
     const completeLayoutPath = path.join(__dirname, layoutPath);
-    const layoutResponse = fs.readFileSync(layocompleteLayoutPathutPath, 'utf-8')
+    const layoutResponse = fs.readFileSync(completeLayoutPath, 'utf-8')
 
     const template = Handlebars.compile(templateResponse.toString());
     const layout = Handlebars.compile(layoutResponse.toString());
@@ -241,8 +246,8 @@ app.get('/((?!favicon.ico)):orgName', ensureAuthenticated, (req, res) => {
     const mockProfileDataPath = path.join(__dirname, filePrefix + '../mock', '/userProfiles.json');
     const mockProfileData = JSON.parse(fs.readFileSync(mockProfileDataPath, 'utf-8'));
 
-    registerPartials(path.join(__dirname, filePrefix, 'pages', 'home', 'partials'));
-    registerPartials(path.join(__dirname, filePrefix, 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'pages', 'home', 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         baseUrl:  req.params.orgName
@@ -274,8 +279,8 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async(re
          images[key] = modifiedApiImageURL;
      }
 
-    registerPartials(path.join(__dirname, filePrefix, 'pages', 'api-landing', 'partials'));
-    registerPartials(path.join(__dirname, filePrefix, 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'pages', 'api-landing', 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'partials'));
     
     const apiContetnUrl = config.apiMetaDataAPI + "apiFiles?orgName=" + orgName + "&apiID=" + apiName;
 
@@ -300,8 +305,8 @@ app.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async(req, res) 
     const orgName = req.params.orgName;
     const apiMetaDataUrl = config.apiMetaDataAPI + "apiList?orgName=" + orgName;
 
-    registerPartials(path.join(__dirname, filePrefix, 'pages', 'apis', 'partials'));
-    registerPartials(path.join(__dirname, filePrefix, 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'pages', 'apis', 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'partials'));
 
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.json();
@@ -339,7 +344,7 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, a
     const metadataResponse = await fetch(apiMetaDataUrl);
     const metaData = await metadataResponse.text();
 
-    registerPartials(path.join(__dirname, filePrefix, 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'partials'));
 
     var templateContent = {
         apiMetadata: metaData,
@@ -355,9 +360,9 @@ app.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, (req, res) =
     const filePath = req.originalUrl.split("/").pop();
 
     //read all files in partials folder
-    registerPartials(path.join(__dirname, filePrefix, 'partials'));
-    if (fs.existsSync(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'))) {
-        registerPartials(path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
+    registerPartials(req.params.orgName, path.join(__dirname, filePrefix, 'partials'));
+    if (fs.existsSync(req.params.orgName, path.join(__dirname, filePrefix + 'pages', filePath, 'partials'))) {
+        registerPartials(req.params.orgName, path.join(__dirname, filePrefix + 'pages', filePath, 'partials'));
     }
 
     var templateContent = {};
