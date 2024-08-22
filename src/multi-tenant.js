@@ -158,9 +158,6 @@ router.get('/((?!favicon.ico)):orgName', ensureAuthenticated, async (req, res) =
     if (!req.hostname.match("localhost")) {
         config.adminAPI = process.env.AdminURL;
         config.apiMetaDataAPI = process.env.APIMetaDataURL;
-        console.log("Connection URLs");
-        console.log(config.adminAPI);
-        console.log(config.apiMetaDataAPI);
     }
     const orgName = req.params.orgName;
     const url = config.adminAPI + "orgFiles?orgName=" + orgName;

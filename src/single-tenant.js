@@ -186,7 +186,6 @@ const renderTemplate = (templateName, layoutName, templateContent) => {
 app.get('/((?!favicon.ico)):orgName/login', async (req, res, next) => {
     const authJsonResponse = await fetch(config.adminAPI + "identityProvider?orgName=" + req.params.orgName);
     var authJsonContent = await authJsonResponse.json();
-    console.log(authJsonContent);
 
     if (authJsonContent.length > 0) {
         passport.use(new OAuth2Strategy({

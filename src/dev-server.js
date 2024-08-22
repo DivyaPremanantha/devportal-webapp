@@ -201,7 +201,6 @@ app.get('/callback', (req, res, next) => {
     // Retrieve the original URL from the session
     const returnTo = req.session.returnTo || '/';
     // Clear the returnTo variable from the session
-    console.log("returnTo", returnTo);
     delete req.session.returnTo;
     res.redirect(returnTo);
 });
@@ -212,8 +211,6 @@ const ensureAuthenticated = (req, res, next) => {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            console.log("Redirecting to login page");
-            console.log("Original URL", req.originalUrl);
             req.session.returnTo = req.originalUrl || '/';
             res.redirect('/login');
         }
