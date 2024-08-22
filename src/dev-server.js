@@ -15,8 +15,7 @@ const crypto = require('crypto');
 const secret = crypto.randomBytes(64).toString('hex');
 const app = express();
 
-const filePath = path.join(__dirname, '../../../node_modules');
-var filePrefix = '';
+var filePrefix = '../../../src/';
 
 const authJsonPath = path.join(__dirname, filePrefix + '../mock', 'auth.json');
 const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
@@ -26,9 +25,6 @@ const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
 
 const hbs = exphbs.create({});
 
-if (fs.existsSync(filePath)) {
-    filePrefix = '../../../src/';
-}
 app.engine('.hbs', engine({
     extname: '.hbs'
 }));
@@ -66,9 +62,9 @@ const copyStyelSheet = () => {
 
     }
     var styleDir = [];
-    searchFile(path.join(__dirname, 'partials'), ".css", styleDir);
-    searchFile(path.join(__dirname, 'layout'), ".css", styleDir);
-    searchFile(path.join(__dirname, 'pages'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'partials'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'layout'), ".css", styleDir);
+    searchFile(path.join(__dirname, filePrefix + 'pages'), ".css", styleDir);
 }
 
 function searchFile(dir, fileName, styleDir) {
@@ -163,13 +159,13 @@ const registerPartials = (dir) => {
     });
 };
 
-const renderTemplate = (templateName, layoutName, templateContent) => {
+const renderTemplate = (templatePath, layoutPath, templateContent) => {
 
-    const templatePath = path.join(__dirname, filePrefix + templateName);
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+    const completeTemplatePath = path.join(__dirname, templatePath);
+    const templateResponse = fs.readFileSync(completeTemplatePath, 'utf-8')
 
-    const layoutPath = path.join(__dirname, filePrefix + layoutName);
-    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+    const completeLayoutPath = path.join(__dirname, layoutPath);
+    const layoutResponse = fs.readFileSync(completeLayoutPath, 'utf-8')
 
     const template = Handlebars.compile(templateResponse.toString());
     const layout = Handlebars.compile(layoutResponse.toString());
@@ -232,7 +228,7 @@ app.get('/', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000",
     };
-    const html = renderTemplate('pages/home/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/home/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -256,7 +252,7 @@ app.get('/api/:apiName', ensureAuthenticated, (req, res) => {
         baseUrl: "http://localhost:3000",
     }
 
-    const html = renderTemplate('pages/api-landing/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/api-landing/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -274,7 +270,7 @@ app.get('/apis', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000",
     }
-    const html = renderTemplate('pages/apis/page.hbs', 'layout/main.hbs', templateContent);
+    const html = renderTemplate(filePrefix + 'pages/apis/page.hbs', filePrefix + 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -291,7 +287,7 @@ app.get('/api/:apiName/tryout', ensureAuthenticated, (req, res) => {
         authJson: authJson,
         baseUrl: "http://localhost:3000"
     }
-    const html = renderTemplate('pages/tryout/page.hbs', 'layout/main.hbs', templateContent);
+    const html = renderTemplate('pages/tryout/page.hbs', filePrefix + 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -319,7 +315,7 @@ app.get('(?!styles)\/*', ensureAuthenticated, (req, res) => {
         });
     }
 
-    const html = renderTemplate('pages/' + filePath + '/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/' + filePath + '/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 
 });

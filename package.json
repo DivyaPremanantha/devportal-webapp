@@ -1,6 +1,6 @@
 {
   "name": "devportal-webapp",
-  "version": "1.0.19",
+  "version": "1.0.23",
   "description": "devportal-webapp",
   "main": "index.js",
   "scripts": {

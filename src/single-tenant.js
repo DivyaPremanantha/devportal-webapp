@@ -17,8 +17,7 @@ var config = require('../config');
 const secret = crypto.randomBytes(64).toString('hex');
 const app = express();
 
-const filePath = path.join(__dirname, '../../../node_modules');
-var filePrefix = '';
+var filePrefix = '../../../src/';
 
 const authJsonPath = path.join(__dirname, filePrefix + '../mock', 'auth.json');
 const authJson = JSON.parse(fs.readFileSync(authJsonPath, 'utf-8'));
@@ -28,9 +27,6 @@ const orgDetails = JSON.parse(fs.readFileSync(orgDetailsPath, 'utf-8'));
 
 const hbs = exphbs.create({});
 
-if (fs.existsSync(filePath)) {
-    filePrefix = '../../../src/';
-}
 app.engine('.hbs', engine({
     extname: '.hbs'
 }));
@@ -165,13 +161,13 @@ const registerPartials = (dir) => {
     });
 };
 
-const renderTemplate = (templateName, layoutName, templateContent) => {
+const renderTemplate = (templatePath, layoutPath, templateContent) => {
 
-    const templatePath = path.join(__dirname, filePrefix + templateName);
-    const templateResponse = fs.readFileSync(templatePath, 'utf-8')
+    const completeTemplatePath = path.join(__dirname, templatePath);
+    const templateResponse = fs.readFileSync(completeTemplatePath, 'utf-8')
 
-    const layoutPath = path.join(__dirname, filePrefix + layoutName);
-    const layoutResponse = fs.readFileSync(layoutPath, 'utf-8')
+    const completeLayoutPath = path.join(__dirname, layoutPath);
+    const layoutResponse = fs.readFileSync(layocompleteLayoutPathutPath, 'utf-8')
 
     const template = Handlebars.compile(templateResponse.toString());
     const layout = Handlebars.compile(layoutResponse.toString());
@@ -251,7 +247,7 @@ app.get('/((?!favicon.ico)):orgName', ensureAuthenticated, (req, res) => {
     var templateContent = {
         baseUrl:  req.params.orgName
     };
-    const html = renderTemplate('pages/home/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/home/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -293,7 +289,7 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName', ensureAuthenticated, async(re
         baseUrl: '/' + req.params.orgName,
     }
 
-    const html = renderTemplate('pages/api-landing/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/api-landing/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 });
 
@@ -332,7 +328,7 @@ app.get('/((?!favicon.ico)):orgName/apis', ensureAuthenticated, async(req, res) 
         apiMetadata: metaData,
         baseUrl: req.params.orgName
     }
-    const html = renderTemplate('pages/apis/page.hbs', 'layout/main.hbs', templateContent);
+    const html = renderTemplate(filePrefix + 'pages/apis/page.hbs', filePrefix + 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -349,7 +345,7 @@ app.get('/((?!favicon.ico)):orgName/api/:apiName/tryout', ensureAuthenticated, a
         apiMetadata: metaData,
         baseUrl: req.params.orgName
     }
-    const html = renderTemplate('pages/tryout/page.hbs', 'layout/main.hbs', templateContent);
+    const html = renderTemplate('pages/tryout/page.hbs', filePrefix + 'layout/main.hbs', templateContent);
     res.send(html);
 });
 
@@ -377,7 +373,7 @@ app.get('/((?!favicon.ico|images):orgName/*)', ensureAuthenticated, (req, res) =
         });
     }
 
-    const html = renderTemplate('pages/' + filePath + '/page.hbs', 'layout/main.hbs', templateContent)
+    const html = renderTemplate(filePrefix + 'pages/' + filePath + '/page.hbs', filePrefix + 'layout/main.hbs', templateContent)
     res.send(html);
 
 });
