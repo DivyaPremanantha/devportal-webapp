@@ -6,4 +6,4 @@ The DevPortal WebApp serves as a development portal offering fundamental layout 
 
 ## Getting Started
 
-Follow the stesps in [DevPortal Developer WebApp](https://github.com/DivyaPremanantha/devportal-developer-webapp) to set up and run the DevPortal locally.
+Follow the stesps in [DevPortal Developer WebApp](https://github.com/wso2/api-developer-portal) to set up and run the DevPortal locally.
